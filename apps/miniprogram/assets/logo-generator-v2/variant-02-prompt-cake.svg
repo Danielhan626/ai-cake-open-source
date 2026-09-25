@@ -1,0 +1,14 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI Ruiyi Cake logo v2 prompt cake">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 31c0-6 5-11 11-11h34c6 0 11 5 11 11v9c0 6-5 11-11 11H50l-12 10v-10h-5c-6 0-11-5-11-11v-9Z" stroke-width="3.4"/>
+    <path d="M34 35h20" stroke-width="3"/>
+    <path d="M61 35h5" stroke-width="3" opacity="0.45"/>
+    <path d="M29 75h42" stroke-width="3.2"/>
+    <path d="M36 70h28c4 0 7-3 7-7v-8H29v8c0 4 3 7 7 7Z" stroke-width="3.2"/>
+    <path d="M35 55c4-6 11-7 16-1 5-6 13-5 17 1" stroke-width="3.2"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="52" cy="49" r="5.6"/>
+    <path d="M57 45c4-5 9-5 13-2-3 4-8 6-13 2Z"/>
+  </g>
+</svg>

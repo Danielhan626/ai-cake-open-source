@@ -1,0 +1,320 @@
+<view class="page">
+  <view class="panel" wx:if="{{demand}}">
+    <text class="eyebrow">制作需求</text>
+    <text class="title">{{demand.title}}</text>
+    <text class="muted">{{demand.city}}{{demand.district}} · {{demand.expectedDate}} · {{demand.budget}}</text>
+    <view class="demand-loop demand-status-loop">
+      <text class="{{demand.status === 'reviewing' ? 'active' : ''}}">平台审核</text>
+      <text class="{{demand.status === 'quoting' ? 'active' : ''}}">师傅报价</text>
+      <text class="{{demand.status === 'selected' ? 'active' : ''}}">选择报价</text>
+      <text>履约售后</text>
+    </view>
+    <view class="demand-next" wx:if="{{demandNextStep}}">
+      <text class="demand-next-title">{{demandNextStep.title}}</text>
+      <text class="muted">{{demandNextStep.desc}}</text>
+    </view>
+    <view class="demand-summary" wx:if="{{demandSummary.length}}">
+      <view class="demand-summary-item" wx:for="{{demandSummary}}" wx:key="label">
+        <text>{{item.label}}</text>
+        <text>{{item.value}}</text>
+      </view>
+    </view>
+    <view class="production-confirm-summary">
+      <text class="production-confirm-title">制作确认</text>
+      <text>AI 图是设计参考，真实成品以师傅报价和接单确认为准。</text>
+      <text>配送时间：{{demand.deliveryWindow || '时间待确认'}}；贺卡：{{demand.recipientNote || '到店后再确认'}}。</text>
+      <text>装饰可能不可食用，建议冷藏保存并当天食用。</text>
+    </view>
+    <view class="tag-row">
+      <text class="tag">{{demand.status}}</text>
+      <text class="tag">{{demand.deliveryMethod}}</text>
+      <text class="tag">{{demand.servings}}</text>
+      <text class="tag">制作沟通等级：{{productionLevelDisplay}}</text>
+    </view>
+    <text class="muted">最想保留：{{demand.mustKeep || '待补充'}}</text>
+    <text class="muted">可以调整：{{demand.canAdjust || '待沟通'}}</text>
+  </view>
+
+  <view class="panel" wx:if="{{work}}">
+    <image class="cake-image" src="{{work.imageUrl}}" mode="aspectFill" />
+    <text class="muted demand-copy">{{workCopy}}</text>
+  </view>
+
+  <view class="panel demand-form" wx:if="{{work && demandDraft && !demand}}">
+    <text class="eyebrow">做同款</text>
+    <text class="section-title">发布制作需求</text>
+    <text class="muted">把这张 AI 蛋糕图发给订单城市的蛋糕师傅。平台不裁决能否制作，审核通过后师傅可以按图片、预算和时间选择报价、改稿或暂不接单。</text>
+    <view class="demand-loop">
+      <text>平台审核</text>
+      <text>师傅报价</text>
+      <text>选择报价</text>
+      <text>履约售后</text>
+    </view>
+    <view class="production-notice-card">
+      <view class="section-head">
+        <view>
+          <text class="same-style-title">真实制作说明</text>
+          <text class="muted">做同款前先确认这三点。</text>
+        </view>
+        <text class="confirm-state {{demandForm.productionNoticeAccepted ? 'active' : ''}}">{{demandForm.productionNoticeAccepted ? '已确认' : '待确认'}}</text>
+      </view>
+      <view class="production-notice-list">
+        <text wx:for="{{productionNoticeItems}}" wx:key="*this">{{item}}</text>
+      </view>
+      <button class="secondary-button confirm-notice-button" bindtap="toggleProductionNoticeAccepted">{{demandForm.productionNoticeAccepted ? '已了解，继续编辑' : '我知道，继续填写'}}</button>
+    </view>
+    <view class="demand-field-stack" wx:if="{{demandForm.productionNoticeAccepted}}">
+    <view class="demand-summary form-summary">
+      <view class="demand-summary-item">
+        <text>城市</text>
+        <text>{{demandForm.orderCity}}{{demandForm.orderDistrict}}</text>
+      </view>
+      <view class="demand-summary-item">
+        <text>日期</text>
+        <text>{{demandForm.expectedDate}}</text>
+      </view>
+      <view class="demand-summary-item">
+        <text>预算</text>
+        <text>{{demandForm.budgetText}}</text>
+      </view>
+      <view class="demand-summary-item">
+        <text>方式</text>
+        <text>{{demandForm.deliveryText}}</text>
+      </view>
+    </view>
+    <text class="form-step-title">先填这 3 项，师傅就能开始判断</text>
+    <view class="field">
+      <text class="label">需求说明</text>
+      <textarea class="textarea" value="{{demandForm.description}}" bindinput="onDescriptionInput" placeholder="写清楚希望还原的地方、可接受调整、祝福语等" />
+    </view>
+    <view class="field-grid">
+      <view class="field">
+        <text class="label">订单城市</text>
+        <picker range="{{cityOptions}}" value="{{demandForm.orderCityIndex}}" bindchange="onOrderCityChange">
+          <view class="picker">{{demandForm.orderCity}} · {{demandForm.orderDistrict}}</view>
+        </picker>
+      </view>
+      <view class="field">
+        <text class="label">期望日期</text>
+        <picker mode="date" value="{{demandForm.expectedDate}}" bindchange="onExpectedDateChange">
+          <view class="picker">{{demandForm.expectedDate}}</view>
+        </picker>
+      </view>
+      <view class="field">
+        <text class="label">配送方式</text>
+        <picker range="{{deliveryOptions}}" value="{{demandForm.deliveryIndex}}" bindchange="onDeliveryChange">
+          <view class="picker">{{demandForm.deliveryText}}</view>
+        </picker>
+      </view>
+      <view class="field">
+        <text class="label">配送时间</text>
+        <picker range="{{deliveryWindowOptions}}" value="{{demandForm.deliveryWindowIndex}}" bindchange="onDeliveryWindowChange">
+          <view class="picker">{{demandForm.deliveryWindowText}}</view>
+        </picker>
+      </view>
+      <view class="field">
+        <text class="label">预算</text>
+        <picker range="{{budgetOptions}}" value="{{demandForm.budgetIndex}}" bindchange="onBudgetChange">
+          <view class="picker">{{demandForm.budgetText}}</view>
+        </picker>
+      </view>
+    </view>
+    <view class="field">
+      <text class="label">收货地址</text>
+      <input class="input" value="{{demandForm.address}}" bindinput="onAddressInput" placeholder="填写配送地址或自提备注" />
+    </view>
+    <view class="field">
+      <text class="label">联系方式</text>
+      <input class="input" value="{{demandForm.contact}}" bindinput="onContactInput" placeholder="微信号或手机号" />
+    </view>
+    <button class="ghost-button detail-toggle" bindtap="toggleDemandDetails">{{demandDetailsOpen ? '收起制作偏好' : '补充制作偏好'}}</button>
+    <view class="detail-fields" wx:if="{{demandDetailsOpen}}">
+      <view class="field">
+        <text class="label">贺卡/祝福语</text>
+        <input class="input" value="{{demandForm.recipientNote}}" bindinput="onRecipientNoteInput" placeholder="例如：生日快乐，愿你每天都有甜甜的光" />
+      </view>
+      <view class="field">
+        <text class="label">制作沟通等级</text>
+        <picker range="{{productionLevelOptions}}" range-key="label" value="{{demandForm.productionLevelIndex}}" bindchange="onProductionLevelChange">
+          <view class="picker">{{demandForm.productionLevelText}}</view>
+        </picker>
+      </view>
+      <view class="field-grid">
+      <view class="field">
+        <text class="label">人数</text>
+        <picker range="{{servingOptions}}" value="{{demandForm.servingsIndex}}" bindchange="onServingsChange">
+          <view class="picker">{{demandForm.servingsText}}</view>
+        </picker>
+      </view>
+      <view class="field">
+        <text class="label">口味</text>
+        <picker range="{{flavorOptions}}" value="{{demandForm.flavorIndex}}" bindchange="onFlavorChange">
+          <view class="picker">{{demandForm.flavorText}}</view>
+        </picker>
+      </view>
+      </view>
+      <view class="field">
+        <text class="label">最想保留</text>
+        <textarea class="textarea small-textarea" value="{{demandForm.mustKeep}}" bindinput="onMustKeepInput" placeholder="例如：主色、造型、数字牌、某个装饰必须保留" />
+      </view>
+      <view class="field">
+        <text class="label">可以调整</text>
+        <textarea class="textarea small-textarea" value="{{demandForm.canAdjust}}" bindinput="onCanAdjustInput" placeholder="例如：尺寸、材料、支撑结构、局部摆件可调整" />
+      </view>
+      <button class="switch-row" bindtap="toggleAdjustments">
+        <text>允许蛋糕师按真实制作调整</text>
+        <text class="switch-pill {{demandForm.allowAdjustments ? 'active' : ''}}">{{demandForm.allowAdjustments ? '允许' : '不允许'}}</text>
+      </button>
+    </view>
+    <button class="secondary-button quote-action" loading="{{publishing}}" disabled="{{publishing || !demandForm.productionNoticeAccepted}}" bindtap="publishDraftDemand">提交审核，等待师傅报价</button>
+    </view>
+  </view>
+
+  <view class="panel" wx:if="{{baker && demand}}">
+    <text class="section-title">同城已入驻蛋糕师</text>
+    <text class="card-title">{{baker.name}}</text>
+    <text class="muted">{{baker.district}} · {{baker.deliveryRadiusKm}}km · 起订 ¥{{baker.startingPrice}}</text>
+    <view class="tag-row">
+      <text class="tag" wx:for="{{baker.specialties}}" wx:key="*this">{{item}}</text>
+    </view>
+    <text class="muted credential-line">平台审核：{{baker.reviewStatus === 'approved' ? '已通过' : '审核中'}}</text>
+  </view>
+
+  <view class="panel" wx:if="{{demand && isBakerMode && !baker}}">
+    <text class="section-title">需要完成商家入驻</text>
+    <text class="muted">报价必须绑定到已入驻并通过审核的蛋糕店账号。请先提交店铺信息和食品相关资质。</text>
+    <button class="secondary-button quote-action" bindtap="goOnboarding">去入驻</button>
+  </view>
+
+  <view class="panel quote-form {{quoteEntryMode === 'quote' ? 'quote-focus' : ''}}" wx:if="{{baker && demand && isBakerMode}}">
+    <text class="section-title">报价明细</text>
+    <text class="quote-entry-note" wx:if="{{quoteEntryMode === 'quote'}}">已从接单广场进入报价，请先确认需求图片、预算和日期。</text>
+    <text class="muted">师傅先根据图片、预算、日期和沟通等级给出是否接单与报价，用户选择后才进入订单与履约。</text>
+    <view class="quote-entry-summary" wx:if="{{quoteDemandSummary.length}}">
+      <view class="quote-entry-item" wx:for="{{quoteDemandSummary}}" wx:key="label">
+        <text>{{item.label}}</text>
+        <text>{{item.value}}</text>
+      </view>
+    </view>
+    <view class="quote-guidance" wx:if="{{quoteGuidance.length}}">
+      <text wx:for="{{quoteGuidance}}" wx:key="*this">{{item}}</text>
+    </view>
+    <view class="field">
+      <text class="label">接单态度</text>
+      <picker range="{{quoteDecisionOptions}}" range-key="label" value="{{quoteForm.decisionIndex}}" bindchange="onQuoteDecisionChange">
+        <view class="picker">{{quoteForm.decisionText}}</view>
+      </picker>
+    </view>
+    <view class="field-grid">
+      <view class="field">
+        <text class="label">蛋糕价格</text>
+        <input class="input" type="number" value="{{quoteForm.amount}}" bindinput="onAmountInput" placeholder="填写蛋糕价格" />
+      </view>
+      <view class="field">
+        <text class="label">配送费</text>
+        <input class="input" type="number" value="{{quoteForm.deliveryFee}}" bindinput="onDeliveryFeeInput" placeholder="填写配送费" />
+      </view>
+      <view class="field">
+        <text class="label">制作周期</text>
+        <picker range="{{productionDayOptions}}" value="{{quoteForm.productionDaysIndex}}" bindchange="onProductionDaysChange">
+          <view class="picker">{{quoteForm.productionDaysText}}</view>
+        </picker>
+      </view>
+      <view class="field">
+        <text class="label">可制作日期</text>
+        <picker mode="date" value="{{quoteForm.availableDate}}" bindchange="onAvailableDateChange">
+          <view class="picker">{{quoteForm.availableDate}}</view>
+        </picker>
+      </view>
+    </view>
+    <view class="field-grid quote-certainty-grid">
+      <view class="field">
+        <text class="label">可还原程度</text>
+        <picker range="{{restorationOptions}}" value="{{quoteForm.restorationIndex}}" bindchange="onQuoteRestorationChange">
+          <view class="picker">{{quoteForm.restorationText}}</view>
+        </picker>
+      </view>
+      <view class="field">
+        <text class="label">配送时间段</text>
+        <picker range="{{deliveryWindowOptions}}" value="{{quoteForm.deliveryWindowIndex}}" bindchange="onQuoteDeliveryWindowChange">
+          <view class="picker">{{quoteForm.deliveryWindowText}}</view>
+        </picker>
+      </view>
+    </view>
+    <button class="switch-row" bindtap="toggleScheduledDelivery">
+      <text>支持定时配送</text>
+      <text class="switch-pill {{quoteForm.scheduledDeliverySupported ? 'active' : ''}}">{{quoteForm.scheduledDeliverySupported ? '支持' : '不支持'}}</text>
+    </button>
+    <view class="field">
+      <text class="label">给用户的话</text>
+      <textarea class="textarea" value="{{quoteForm.message}}" bindinput="onQuoteMessageInput" placeholder="写清楚制作建议、确认事项、配送提醒" />
+    </view>
+    <view class="field">
+      <text class="label">还原与调整说明</text>
+      <textarea class="textarea" value="{{quoteForm.adjustmentNote}}" bindinput="onAdjustmentInput" placeholder="说明哪些地方可还原，哪些需要材料或结构调整" />
+    </view>
+    <view class="field">
+      <text class="label">改单截止</text>
+      <input class="input" value="{{quoteForm.changeDeadline}}" bindinput="onChangeDeadlineInput" placeholder="例如：开做前一天 18:00 前确认" />
+    </view>
+    <view class="field">
+      <text class="label">取消规则</text>
+      <textarea class="textarea" value="{{quoteForm.cancelPolicy}}" bindinput="onCancelPolicyInput" placeholder="写清楚备料或制作开始后的处理方式" />
+    </view>
+    <view class="field">
+      <text class="label">签收提醒</text>
+      <textarea class="textarea" value="{{quoteForm.signoffNote}}" bindinput="onSignoffNoteInput" placeholder="例如：签收前检查外观、祝福牌和配送完整度" />
+    </view>
+    <button class="secondary-button quote-action" loading="{{loading}}" disabled="{{loading}}" bindtap="createQuote">提交蛋糕师报价</button>
+    <button class="ghost-button quote-action" bindtap="goBakers">回接单广场</button>
+  </view>
+
+  <view class="panel" wx:if="{{buyerReviewing}}">
+    <text class="section-title">平台审核中</text>
+    <text class="muted">审核通过后，{{demand.city}}当地蛋糕师傅可以看到这条制作需求并提交报价。你不需要重复发布。</text>
+    <view class="trust-list">
+      <text>只展示平台审核通过的公开需求给师傅。</text>
+      <text>师傅需要说明可还原部分、调整建议、价格和制作周期。</text>
+      <text>用户选择报价后，订单才进入制作确认和售后记录。</text>
+    </view>
+    <view class="actions two-actions">
+      <button class="primary-button empty-action" bindtap="goOrders">查看进度</button>
+      <button class="ghost-button empty-action" bindtap="goBakers">看同城师傅</button>
+    </view>
+  </view>
+
+  <view class="panel" wx:if="{{buyerQuoting}}">
+    <text class="section-title">等待师傅报价</text>
+    <text class="muted">需求已经进入同城接单广场。师傅会按图片、预算、日期和制作沟通等级回复，收到报价后再由你选择。</text>
+    <view class="trust-list">
+      <text>报价会写明价格、配送费和制作周期。</text>
+      <text>需要调整的结构或装饰，会在报价说明里单独写出。</text>
+      <text>选择报价前不会进入制作确认。</text>
+    </view>
+    <view class="actions two-actions">
+      <button class="primary-button empty-action" bindtap="goQuotes">去看报价</button>
+      <button class="ghost-button empty-action" bindtap="goBakers">看同城师傅</button>
+    </view>
+  </view>
+
+  <view class="panel" wx:if="{{buyerSelected}}">
+    <text class="section-title">已选择报价，进入订单</text>
+    <text class="muted">撮合已经确认。接下来在订单页跟进蛋糕师确认制作、配送或自提，平台会保留履约和售后记录。</text>
+    <view class="actions two-actions">
+      <button class="primary-button empty-action" bindtap="goOrders">去订单跟进</button>
+      <button class="ghost-button empty-action" bindtap="goQuotes">查看报价</button>
+    </view>
+  </view>
+
+  <view class="panel" wx:if="{{buyerClosed}}">
+    <text class="section-title">需求已关闭</text>
+    <text class="muted">你可以回到设计页重新发布一条需求，继续寻找适合的蛋糕师报价。</text>
+    <button class="primary-button empty-action" bindtap="goDesign">重新设计</button>
+  </view>
+
+  <view class="panel" wx:if="{{!demand && !demandDraft}}">
+    <text class="section-title">还没有制作需求</text>
+    <text class="muted">生成作品后发布需求，订单城市的蛋糕师就可以报价。</text>
+    <button class="primary-button empty-action" bindtap="goDesign">去设计</button>
+  </view>
+</view>

@@ -1,0 +1,29 @@
+{
+  "status": "publishable-candidate",
+  "generatedAt": "2026-09-25T12:24:03.792Z",
+  "source": "sanitized-worktree",
+  "output": ".tmp/public-release",
+  "fileCount": 237,
+  "license": "present",
+  "excluded": [
+    "apps/miniprogram/project.private.config.json",
+    "docs/aliyun-ecs-deployment-runbook.md",
+    "docs/deployment-status.md",
+    "docs/launch-readiness-checklist.md",
+    "docs/public-release-checklist.md",
+    "docs/wechat-new-appid-config-runbook.md",
+    "scripts/build-public-snapshot.mjs",
+    ".codex-context/",
+    ".git/",
+    ".logs/",
+    ".planning/",
+    ".tmp/",
+    "apps/api/data/",
+    "apps/api/dist/",
+    "apps/web-preview/dist/",
+    "deliverables/",
+    "docs/superpowers/",
+    "materials/",
+    "node_modules/"
+  ]
+}

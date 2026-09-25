@@ -1,0 +1,142 @@
+<view class="page works-page">
+  <view class="forum-hero">
+    <view class="forum-hero-copy">
+      <text class="eyebrow">蛋糕设计展台</text>
+      <text class="title">作品广场</text>
+      <text class="muted">营销日历赛题会提前发起创作，公开作品经 AI 点评、观众投票送花和官方审核后，才进入可做同款的展示位。</text>
+    </view>
+    <view class="display-plate">
+      <view class="plate-cake"></view>
+      <text>今日展台</text>
+    </view>
+    <view class="forum-stats">
+      <view class="forum-stat" wx:for="{{forumStats}}" wx:key="label">
+        <text>{{item.value}}</text>
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="panel bot-panel">
+    <view class="header-row">
+      <text class="section-title">创作快评席</text>
+      <button class="ghost-button refresh-button" bindtap="loadWorks">刷新</button>
+    </view>
+    <view class="bot-list">
+      <view class="bot-mini" wx:for="{{forumBots}}" wx:key="name">
+        <text class="bot-name">{{item.name}}</text>
+        <text class="bot-line">{{item.focus}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="panel" wx:if="{{myWorks.length}}">
+    <view class="header-row">
+      <text class="section-title">我的作品</text>
+      <text class="forum-label owned-label">待审 / 私藏</text>
+    </view>
+    <scroll-view class="owned-scroll" scroll-x enable-flex>
+      <view class="owned-track">
+        <view class="owned-card" wx:for="{{myWorks}}" wx:key="id">
+          <image class="owned-thumb" src="{{item.imageUrl}}" mode="aspectFill" />
+          <view class="owned-body">
+            <view class="owned-head">
+              <text class="card-title">{{item.title}}</text>
+              <text class="owned-pill {{item.reviewTone}}">{{item.reviewText}}</text>
+            </view>
+            <text class="muted">{{item.meta}}</text>
+            <text class="muted">{{item.visibilityText}}</text>
+            <button class="ghost-button owned-open-button" bindtap="openWork" data-id="{{item.id}}">查看作品</button>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="panel">
+    <view class="header-row">
+      <text class="section-title">公开广场</text>
+      <text class="forum-label">可做同款</text>
+    </view>
+
+    <view class="card-list" wx:if="{{works.length}}">
+      <view class="list-card gallery-card" wx:for="{{works}}" wx:key="id">
+        <image class="thumb gallery-cover" src="{{item.imageUrl}}" mode="aspectFill" />
+        <view class="work-body">
+          <view class="work-title-row">
+            <text class="card-title">{{item.title}}</text>
+            <text class="heat-pill">{{item.heatText}}</text>
+          </view>
+          <text class="muted">{{item.scenario}} · {{item.style}} · {{item.budget}}</text>
+          <view class="tag-row compact-tags">
+            <text class="tag">{{item.color}}</text>
+            <text class="tag">{{item.size}}</text>
+            <text class="tag">官方已审</text>
+          </view>
+          <view class="gallery-metrics">
+            <text>{{item.voteText}}</text>
+            <text>{{item.roseText}}</text>
+            <text>{{item.adoptText}}</text>
+          </view>
+          <view class="ai-review">
+            <view class="gallery-review-head">
+              <view>
+                <text class="gallery-review-name">{{item.reviewSeatName}}</text>
+                <text class="gallery-review-focus">只看{{item.reviewSeatFocus}}</text>
+              </view>
+              <text class="gallery-review-tag">评审席</text>
+            </view>
+            <text class="gallery-review-line">{{item.reviewSeatLine}}</text>
+          </view>
+          <view class="maker-tip">
+            <text>制作提醒：{{item.makerTip}}</text>
+          </view>
+          <view class="card-loop">
+            <text>AI 点评</text>
+            <text>观众认同</text>
+            <text>师傅报价</text>
+          </view>
+          <text class="market-bridge">做同款后会进入制作需求，审核通过的师傅按城市、日期和预算来报价。</text>
+          <view class="forum-actions">
+            <button class="mini-button detail-button gallery-detail-button" bindtap="openWork" data-id="{{item.id}}">查看</button>
+            <button class="mini-button" bindtap="voteWork" data-id="{{item.id}}">{{item.voted ? '已投票' : '投它好看'}}</button>
+            <button class="mini-button rose-button" bindtap="sendRose" data-id="{{item.id}}">{{item.roseSent ? '已送玫瑰' : '送玫瑰'}}</button>
+            <button class="mini-button adopt-mini-button" bindtap="adoptWork" data-id="{{item.id}}">做同款</button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-block" wx:else>
+      <text class="empty-title">公开广场还没有审核通过的参赛作品</text>
+      <text class="muted">{{myWorks.length ? '你的作品已经保存在上面的“我的作品”，提交公开审核通过后会进入投票、送花和做同款链路。' : '先接营销日历赛题生成一款蛋糕；AI 点评、观众认同和官方审核会决定它能否进入奖励池。'}}</text>
+      <view class="empty-actions">
+        <button class="primary-button empty-action" bindtap="goDesign">去设计</button>
+        <button class="ghost-button empty-action ghost-empty-action" wx:if="{{myWorks.length}}" bindtap="goMine">去我的页</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="panel inspiration-panel" wx:if="{{!works.length && inspirationTasks.length}}">
+    <view class="header-row">
+      <text class="section-title">先从这些灵感题开始</text>
+      <text class="forum-label inspiration-label">立即创作</text>
+    </view>
+    <view class="inspiration-list">
+      <button class="inspiration-card" wx:for="{{inspirationTasks}}" wx:key="id" bindtap="playInspirationTask" data-id="{{item.id}}">
+        <view class="inspiration-head">
+          <text class="card-title">{{item.title}}</text>
+          <text class="inspiration-reward">{{item.prizeLabel || item.rewardLabel}}</text>
+        </view>
+        <text class="muted">{{item.botLine}}</text>
+        <text class="inspiration-rule">{{item.rewardTeaser || 'AI 点评 + 观众送花 + 官方审核'}}</text>
+        <view class="tag-row compact-tags">
+          <text class="tag">{{item.scenario}}</text>
+          <text class="tag">{{item.style}}</text>
+          <text class="tag">{{item.color}}</text>
+        </view>
+        <text class="inspiration-action">去做这题</text>
+      </button>
+    </view>
+  </view>
+</view>

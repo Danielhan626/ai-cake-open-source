@@ -1,0 +1,192 @@
+<view class="page orders-page">
+  <view class="order-hero">
+    <text class="eyebrow">订单中心</text>
+    <text class="title">我的订单</text>
+    <text class="muted">从蛋糕设计、报价确认到制作配送，都在这里跟进。</text>
+  </view>
+
+  <view class="panel" wx:if="{{loading}}">
+    <text class="muted">正在恢复订单记录...</text>
+  </view>
+
+  <view class="panel" wx:if="{{loadError}}">
+    <text class="muted">{{loadError}}</text>
+  </view>
+
+  <view wx:if="{{order}}">
+    <view class="panel order-list-panel" wx:if="{{orders.length > 1}}">
+      <text class="section-title">订单列表</text>
+      <view class="history-list">
+        <button class="history-item {{item.id === order.id ? 'active' : ''}}" wx:for="{{orders}}" wx:key="id" data-id="{{item.id}}" bindtap="selectOrder">
+          <view>
+            <text class="history-title">{{item.title}}</text>
+            <text class="muted">{{item.expectedDate}} · {{item.status}}</text>
+          </view>
+          <text class="history-price">{{item.totalText}}</text>
+        </button>
+      </view>
+    </view>
+
+    <view class="panel order-list-panel" wx:elif="{{orders.length === 1}}">
+      <text class="section-title">订单列表</text>
+      <text class="muted">{{orderSource === 'cached-server' ? '当前显示最近一次同步到本机的服务器订单快照，联网后会自动刷新。' : '已恢复 1 条服务器订单。'}}</text>
+    </view>
+
+    <view class="panel order-card">
+      <view class="order-head">
+        <view>
+          <text class="order-title">{{order.title}}</text>
+          <text class="muted">{{order.city}}{{order.district}} · {{order.expectedDate}}</text>
+        </view>
+        <text class="status-pill">{{order.status}}</text>
+      </view>
+      <image class="order-image" wx:if="{{work && work.imageUrl}}" src="{{work.imageUrl}}" mode="aspectFill" />
+      <view class="order-meta">
+        <view>
+          <text>配送方式</text>
+          <text>{{order.deliveryMethod}}</text>
+        </view>
+        <view>
+          <text>订单金额</text>
+          <text>{{order.totalText}}</text>
+        </view>
+        <view wx:if="{{order.paymentStatus}}">
+          <text>支付状态</text>
+          <text>{{order.paymentStatus}}</text>
+        </view>
+        <view wx:if="{{order.fulfillmentStatus}}">
+          <text>履约状态</text>
+          <text>{{order.fulfillmentStatus}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="panel next-step-panel" wx:if="{{orderNextStep}}">
+      <text class="section-title">当前要做</text>
+      <text class="next-step-title">{{orderNextStep.title}}</text>
+      <text class="muted">{{orderNextStep.desc}}</text>
+      <view class="order-summary" wx:if="{{orderSummary.length}}">
+        <view class="order-summary-item" wx:for="{{orderSummary}}" wx:key="label">
+          <text>{{item.label}}</text>
+          <text>{{item.value}}</text>
+        </view>
+      </view>
+      <view class="actions two-actions" wx:if="{{orderActionButtons.length}}">
+        <button
+          wx:for="{{orderActionButtons}}"
+          wx:key="action"
+          class="{{item.tone === 'primary' ? 'primary-button' : item.tone === 'secondary' ? 'secondary-button' : 'ghost-button'}}"
+          data-action="{{item.action}}"
+          bindtap="handleOrderAction"
+        >{{item.label}}</button>
+      </view>
+    </view>
+
+    <view class="panel order-rules-panel" wx:if="{{orderRuleCards.length}}">
+      <view class="section-head">
+        <text class="section-title">订单规则</text>
+        <text class="delivery-status">先确认再制作</text>
+      </view>
+      <view class="order-rule-list">
+        <view class="order-rule-card" wx:for="{{orderRuleCards}}" wx:key="title">
+          <text class="order-rule-title">{{item.title}}</text>
+          <text class="muted">{{item.value}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="panel">
+      <text class="section-title">订单进度</text>
+      <view class="step-list">
+        <view class="order-step {{item.done ? 'done' : ''}}" wx:for="{{steps}}" wx:key="title">
+          <text class="step-dot"></text>
+          <text>{{item.title}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="panel" wx:if="{{delivery}}">
+      <view class="section-head">
+        <text class="section-title">履约信息</text>
+        <text class="delivery-status">{{delivery.status}}</text>
+      </view>
+      <view class="delivery-card">
+        <view class="courier-avatar">履</view>
+        <view class="courier-body">
+          <text class="courier-name">{{delivery.name}}</text>
+          <text class="muted">{{delivery.hasCourier ? '已确认联系人' : '联系人待确认'}}</text>
+          <text class="delivery-note">{{delivery.eta}}</text>
+        </view>
+      </view>
+      <text class="muted delivery-desc">{{delivery.note}}</text>
+      <view class="actions two-actions">
+        <button class="ghost-button" bindtap="callCourier">{{delivery.hasCourier ? '查看联系方式' : '联系人待确认'}}</button>
+        <button class="primary-button" bindtap="showTrack">履约跟踪</button>
+      </view>
+    </view>
+
+    <view class="panel refund-panel">
+      <view class="section-head">
+        <text class="section-title">售后退款</text>
+        <text class="delivery-status">证据协商</text>
+      </view>
+      <text class="muted" wx:if="{{refundEligible}}">订单完成后，如果成品、配送或沟通结果不满意，可在售后周期内提交图片证据和说明。商家同意后退款回支付渠道；商家不同意则客服介入协调。</text>
+      <text class="muted" wx:else>订单完成或进入售后状态后，这里才会开放退款申请；当前先跟进制作和配送。</text>
+      <button class="ghost-button refund-toggle" wx:if="{{refundEligible}}" bindtap="toggleRefundPanel">{{refundPanelOpen ? '收起退款申请' : '申请退款'}}</button>
+
+      <view class="refund-form" wx:if="{{refundEligible && refundPanelOpen}}">
+        <view class="field">
+          <text class="label">退款原因</text>
+          <input class="input" value="{{refundForm.reason}}" bindinput="onRefundReasonInput" placeholder="例如成品不符、配送破损、食品安全等" />
+        </view>
+        <view class="field">
+          <text class="label">问题说明</text>
+          <textarea class="textarea" value="{{refundForm.description}}" bindinput="onRefundDescriptionInput" placeholder="说明不满意的地方、沟通过程和希望退款的原因" />
+        </view>
+        <view class="field">
+          <text class="label">申请金额</text>
+          <input class="input" type="digit" value="{{refundForm.requestedAmount}}" bindinput="onRefundAmountInput" placeholder="不填则默认订单金额" />
+        </view>
+        <view class="field">
+          <text class="label">证据图片</text>
+          <button class="secondary-button" bindtap="chooseRefundEvidence">上传证据图片</button>
+          <text class="field-hint">已添加 {{refundForm.evidenceImages.length}} 张证据，可包含成品照、聊天记录、配送截图。</text>
+        </view>
+        <view class="field">
+          <text class="label">证据说明</text>
+          <textarea class="textarea" value="{{refundForm.evidenceNote}}" bindinput="onRefundEvidenceInput" placeholder="描述证据内容，例如收货时间、成品问题、沟通截图含义" />
+        </view>
+        <view class="field">
+          <text class="label">联系方式</text>
+          <input class="input" value="{{refundForm.contact}}" bindinput="onRefundContactInput" placeholder="微信号或手机号" />
+        </view>
+        <button class="primary-button" loading="{{refundSubmitting}}" disabled="{{refundSubmitting}}" bindtap="requestRefund">提交退款申请</button>
+      </view>
+    </view>
+
+    <view class="panel" wx:if="{{refundRequests.length}}">
+      <text class="section-title">退款记录</text>
+      <view class="refund-list">
+        <view class="refund-card" wx:for="{{refundRequests}}" wx:key="id">
+          <view>
+            <text class="refund-title">{{item.reason}}</text>
+            <text class="muted">{{item.statusText}} · ¥{{item.requestedAmount}}</text>
+          </view>
+          <text class="refund-status">{{item.status}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="panel empty-panel" wx:elif="{{requiresLogin}}">
+    <text class="section-title">先登录再看订单</text>
+    <text class="muted">订单、支付、退款和履约进度都需要绑定到你的微信账号后才能恢复。</text>
+    <button class="primary-button empty-action" bindtap="goLogin">去登录查看订单</button>
+  </view>
+
+  <view class="panel empty-panel" wx:else>
+    <text class="section-title">还没有订单</text>
+    <text class="muted">先设计一款蛋糕，满意后发布制作需求，就会在这里形成订单跟进。</text>
+    <button class="primary-button empty-action" bindtap="goDesign">开始设计蛋糕</button>
+  </view>
+</view>

@@ -1,0 +1,140 @@
+.price-row {
+  margin: 22rpx 0;
+}
+
+.price {
+  display: block;
+  color: #28231f;
+  font-size: 64rpx;
+  font-weight: 900;
+}
+
+.note {
+  display: block;
+  margin-top: 16rpx;
+}
+
+.quote-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10rpx;
+  margin-top: 18rpx;
+}
+
+.quote-summary-item {
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 14rpx;
+  border-radius: 14rpx;
+  background: #fff7f3;
+}
+
+.quote-summary-item text:first-child {
+  display: block;
+  color: #8a7466;
+  font-size: 21rpx;
+  font-weight: 760;
+  line-height: 1.2;
+}
+
+.quote-summary-item text:last-child {
+  display: block;
+  margin-top: 6rpx;
+  color: #302923;
+  font-size: 24rpx;
+  font-weight: 900;
+  line-height: 1.25;
+  overflow-wrap: break-word;
+}
+
+.quote-rules {
+  display: grid;
+  gap: 10rpx;
+  margin-top: 18rpx;
+}
+
+.quote-rules-title {
+  color: #2f6f5f;
+  font-size: 25rpx;
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.quote-rule-card {
+  display: grid;
+  gap: 6rpx;
+  padding: 14rpx;
+  border-radius: 14rpx;
+  background: #f4fbf6;
+}
+
+.quote-rule-label {
+  color: #6f8178;
+  font-size: 21rpx;
+  line-height: 1.2;
+}
+
+.quote-rule-value {
+  color: #302923;
+  font-size: 23rpx;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.quote-loop {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8rpx;
+  margin-top: 18rpx;
+}
+
+.quote-loop text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48rpx;
+  padding: 0 6rpx;
+  border-radius: 12rpx;
+  color: #2f6f5f;
+  background: #edf8f2;
+  text-align: center;
+  font-size: 19rpx;
+  font-weight: 850;
+  line-height: 1.15;
+}
+
+.quote-bridge {
+  display: grid;
+  gap: 8rpx;
+  margin-top: 18rpx;
+  padding: 16rpx;
+  border-radius: 16rpx;
+  background: #f4fbf6;
+}
+
+.quote-next {
+  display: grid;
+  gap: 8rpx;
+  margin-top: 18rpx;
+  padding: 16rpx;
+  border-radius: 16rpx;
+  background: #fff7f3;
+}
+
+.quote-next-title {
+  color: #c85360;
+  font-size: 26rpx;
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.quote-bridge-title {
+  color: #2f6f5f;
+  font-size: 25rpx;
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.pay-action {
+  margin-top: 22rpx;
+}

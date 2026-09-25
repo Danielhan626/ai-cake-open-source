@@ -1,0 +1,96 @@
+<view class="page work-detail-page">
+  <view class="share-hero" wx:if="{{work}}">
+    <image class="hero-image" src="{{work.imageUrl}}" mode="aspectFill" />
+    <view class="hero-copy">
+      <text class="eyebrow">作品详情</text>
+      <text class="title">{{work.title}}</text>
+      <text class="muted">{{work.scenario}} · {{work.style}} · {{work.color}} · {{work.size}}</text>
+      <view class="stat-row">
+        <view class="stat-pill">
+          <text>{{interaction.votes}}</text>
+          <text>好看票</text>
+        </view>
+        <view class="stat-pill">
+          <text>{{interaction.roses}}</text>
+          <text>玫瑰</text>
+        </view>
+        <view class="stat-pill">
+          <text>{{work.budget}}</text>
+          <text>预算</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="panel" wx:if="{{work}}">
+    <text class="section-title">设计想法</text>
+    <text class="work-prompt">{{work.prompt}}</text>
+    <view class="tag-row">
+      <text class="tag">{{work.scenario}}</text>
+      <text class="tag">{{work.style}}</text>
+      <text class="tag">{{work.color}}</text>
+      <text class="tag">{{work.size}}</text>
+    </view>
+  </view>
+
+  <view class="panel" wx:if="{{work}}">
+    <text class="section-title">朋友互动</text>
+    <text class="muted panel-lead">观众投票、送花表达认同；公开作品仍需官方审核。</text>
+    <view class="action-grid">
+      <button class="mini-button" bindtap="voteWork">{{interaction.voted ? '已投票' : '投它好看'}}</button>
+      <button class="mini-button rose-button" bindtap="sendRose">{{interaction.roseSent ? '已送玫瑰' : '送玫瑰'}}</button>
+    </view>
+    <button class="primary-button share-button" open-type="share">分享给朋友</button>
+  </view>
+
+  <view class="panel" wx:if="{{work}}">
+    <text class="section-title">作品如何进入奖励池</text>
+    <view class="detail-loop">
+      <view class="detail-loop-step">
+        <text class="detail-loop-index">1</text>
+        <text>AI 点评创意与细节</text>
+      </view>
+      <view class="detail-loop-step">
+        <text class="detail-loop-index">2</text>
+        <text>观众投票、送花形成认同</text>
+      </view>
+      <view class="detail-loop-step">
+        <text class="detail-loop-index">3</text>
+        <text>官方审核后进入奖励池，现金奖励以活动规则为准</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="panel" wx:if="{{work}}">
+    <text class="section-title">继续创作</text>
+    <view class="action-stack">
+      <button class="primary-button" bindtap="startSameCake">做同款</button>
+      <button class="secondary-button" bindtap="joinSameThemeTask">同主题任务</button>
+    </view>
+    <text class="muted">做同款会进入制作需求，再由师傅查看需求、报价和确认履约；同主题任务会带着这款作品的场景、风格和色系进入设计页。</text>
+  </view>
+
+  <view class="panel" wx:if="{{aiReviews.length}}">
+    <text class="section-title">六位评审各看一件事</text>
+    <view class="review-list">
+      <view class="review-item" wx:for="{{aiReviews}}" wx:key="id">
+        <text class="bot-name">{{item.name}}</text>
+        <text class="review-focus">只看{{item.focus}}</text>
+        <text class="muted">{{item.line}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="panel" wx:if="{{work}}">
+    <text class="section-title">制作提醒</text>
+    <view class="tip-list">
+      <text wx:for="{{makerTips}}" wx:key="*this">{{item}}</text>
+    </view>
+  </view>
+
+  <view class="panel empty-detail" wx:else>
+    <text class="section-title">{{loading ? '作品加载中' : '作品暂不可见'}}</text>
+    <text class="muted">作品可能还在审核中，或分享链接已经失效。</text>
+    <button class="primary-button" bindtap="goWorks">回作品广场</button>
+  </view>
+</view>

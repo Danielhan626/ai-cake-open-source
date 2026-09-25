@@ -1,0 +1,17 @@
+<view class="page rules-page">
+  <view class="rules-hero">
+    <text class="eyebrow">平台规则</text>
+    <text class="title">平台规则</text>
+    <text class="muted">如意鲜果蛋糕是 AI 蛋糕设计与本地制作撮合平台，规则围绕设计、报价、履约、食品安全和售后处理。</text>
+  </view>
+
+  <view class="panel rule-card" wx:for="{{rules}}" wx:key="title">
+    <text class="section-title">{{item.title}}</text>
+    <view class="rule-list">
+      <view class="rule-row" wx:for="{{item.items}}" wx:key="*this">
+        <text class="dot"></text>
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI如意鲜果蛋糕 Logo Concepts</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #231922;
+        --muted: #7a6f65;
+        --paper: #fbf7ef;
+        --panel: #fffdf8;
+        --gold: #c7a15a;
+        --berry: #9f263f;
+        --line: rgba(35, 25, 34, 0.12);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        background: radial-gradient(circle at 25% 8%, #fffaf0 0, var(--paper) 38%, #f3eee5 100%);
+        color: var(--ink);
+      }
+
+      main {
+        width: min(1180px, calc(100vw - 36px));
+        margin: 0 auto;
+        padding: 64px 0 72px;
+      }
+
+      header {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 36px;
+        align-items: end;
+        margin-bottom: 48px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(36px, 6vw, 72px);
+        line-height: 0.98;
+        font-weight: 500;
+        letter-spacing: 0;
+      }
+
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--gold);
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .intro {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.8;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        background: color-mix(in srgb, var(--panel) 90%, white);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 24px;
+        min-height: 430px;
+        transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(199, 161, 90, 0.44);
+        box-shadow: 0 18px 60px rgba(72, 48, 28, 0.1);
+      }
+
+      .logo-stage {
+        width: 184px;
+        height: 184px;
+        margin: 0 auto 24px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: #fff8ea;
+        color: var(--ink);
+        box-shadow: inset 0 0 0 1px rgba(199, 161, 90, 0.22);
+      }
+
+      .logo-stage.gold { color: var(--gold); }
+      .logo-stage.berry { color: var(--berry); }
+      .logo-stage.dark { color: var(--ink); }
+
+      img.logo {
+        width: 116px;
+        height: 116px;
+        display: block;
+      }
+
+      h2 {
+        margin: 0 0 8px;
+        font-size: 21px;
+        letter-spacing: 0;
+      }
+
+      .subtitle {
+        margin: 0 0 18px;
+        color: var(--gold);
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .reason {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.75;
+      }
+
+      .recommend {
+        margin: 42px 0 0;
+        padding: 24px;
+        border-radius: 18px;
+        background: #211820;
+        color: #fff8ea;
+        display: grid;
+        grid-template-columns: 132px 1fr;
+        gap: 24px;
+        align-items: center;
+      }
+
+      .recommend .logo-stage {
+        width: 132px;
+        height: 132px;
+        margin: 0;
+        color: var(--gold);
+        background: #fff8ea;
+      }
+
+      .recommend img.logo {
+        width: 88px;
+        height: 88px;
+      }
+
+      .recommend p { margin: 0; color: rgba(255, 248, 234, 0.78); line-height: 1.75; }
+      .recommend strong { color: white; }
+
+      @media (max-width: 900px) {
+        header, .recommend { grid-template-columns: 1fr; }
+        .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+
+      @media (max-width: 640px) {
+        main { width: min(100vw - 24px, 1180px); padding-top: 40px; }
+        .grid { grid-template-columns: 1fr; }
+        .card { min-height: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <section>
+          <p class="eyebrow">logo generator exploration</p>
+          <h1>AI如意鲜果蛋糕</h1>
+        </section>
+        <p class="intro">方向围绕 AI 绘画蛋糕、鲜果、高定甜品和“想点开玩玩”的轻互动感。所有方案避开政治、色情、人物和敏感元素，适合继续导出为微信小程序头像。</p>
+      </header>
+
+      <section class="grid">
+        <article class="card">
+          <div class="logo-stage gold"><img class="logo" src="../apps/miniprogram/assets/logo-generator/variant-01-fruit-orbit.svg" alt="Fruit Orbit" /></div>
+          <h2>Fruit Orbit</h2>
+          <p class="subtitle">fresh fruit + ai orbit</p>
+          <p class="reason">最适合作为小程序头像。蛋糕主体清晰，鲜果有记忆点，外部轨道表达 AI 生成与“来玩一下”的动态感，高级但不冷。</p>
+        </article>
+
+        <article class="card">
+          <div class="logo-stage dark"><img class="logo" src="../apps/miniprogram/assets/logo-generator/variant-02-ruyi-cream.svg" alt="Ruyi Cream" /></div>
+          <h2>Ruyi Cream</h2>
+          <p class="subtitle">ruyi curve + cream cake</p>
+          <p class="reason">把如意云纹转译成奶油线条，中文品牌感更强。适合后续做品牌主标，但 144px 头像下识别度略弱于第一版。</p>
+        </article>
+
+        <article class="card">
+          <div class="logo-stage berry"><img class="logo" src="../apps/miniprogram/assets/logo-generator/variant-03-generative-slice.svg" alt="Generative Slice" /></div>
+          <h2>Generative Slice</h2>
+          <p class="subtitle">cake slice + generated dots</p>
+          <p class="reason">用切片蛋糕和点阵表达 AI 生成过程，偏科技和平台感。更适合产品内功能图标或 AI 生图入口。</p>
+        </article>
+
+        <article class="card">
+          <div class="logo-stage dark"><img class="logo" src="../apps/miniprogram/assets/logo-generator/variant-04-pixel-fruit.svg" alt="Pixel Fruit" /></div>
+          <h2>Pixel Fruit</h2>
+          <p class="subtitle">pixel fruit + cake stand</p>
+          <p class="reason">像素鲜果更有“AI 绘画”和游戏化感，用户会觉得更好玩。缺点是高定感比第一版弱一点。</p>
+        </article>
+
+        <article class="card">
+          <div class="logo-stage gold"><img class="logo" src="../apps/miniprogram/assets/logo-generator/variant-05-couture-monogram.svg" alt="Couture Monogram" /></div>
+          <h2>Couture Monogram</h2>
+          <p class="subtitle">ai monogram + cake plinth</p>
+          <p class="reason">最品牌化、最高定，强调 AI 两个字母和甜品台结构。适合公众号、门店物料，但头像亲和力略低。</p>
+        </article>
+
+        <article class="card">
+          <div class="logo-stage berry"><img class="logo" src="../apps/miniprogram/assets/logo-generator/variant-06-painter-spark.svg" alt="Painter Spark" /></div>
+          <h2>Painter Spark</h2>
+          <p class="subtitle">paint stroke + fruit spark</p>
+          <p class="reason">突出“AI 绘画蛋糕”的动作感，像一笔画出蛋糕和鲜果。适合活动入口或新手任务视觉。</p>
+        </article>
+      </section>
+
+      <section class="recommend">
+        <div class="logo-stage"><img class="logo" src="../apps/miniprogram/assets/logo-generator/variant-01-fruit-orbit.svg" alt="Recommended logo" /></div>
+        <p><strong>推荐用于微信头像：Fruit Orbit。</strong><br />它在 144px 小尺寸下最稳：用户能一眼看到蛋糕、鲜果和 AI 光环，既有高定甜品感，也有“点进来生成一下”的玩法暗示。</p>
+      </section>
+    </main>
+  </body>
+</html>

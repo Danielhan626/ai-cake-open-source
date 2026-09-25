@@ -1,0 +1,53 @@
+name: Bug 报告
+description: 报告可复现的功能或代码问题
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: 请勿在 Issue 中粘贴密钥、证件、手机号、订单或客户资料。安全问题请使用 Security Advisories。
+  - type: textarea
+    id: summary
+    attributes:
+      label: 问题描述
+      description: 实际发生了什么？
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 打开...
+        2. 点击...
+        3. 看到...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期行为
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: 版本或提交
+      placeholder: commit SHA / 小程序版本
+  - type: dropdown
+    id: surface
+    attributes:
+      label: 影响端
+      options:
+        - 微信小程序
+        - API
+        - 运营后台
+        - 部署/配置
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 脱敏日志或截图
+      description: 请先删除所有密钥、Token、联系方式和真实业务数据。

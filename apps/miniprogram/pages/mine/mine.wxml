@@ -1,0 +1,455 @@
+<view class="page mine-page">
+  <view class="account-hero">
+    <text class="eyebrow">我的工作台</text>
+    <text class="title">一个账号，两个角色</text>
+    <text class="muted">当前城市：{{city}} · 玩家负责创作和分享，师傅负责报价和履约。</text>
+
+    <view class="role-tabs">
+      <button class="role-tab {{isPlayer ? 'active' : ''}}" data-role="player" bindtap="switchRole">
+        <text>玩家设计端</text>
+      </button>
+      <button class="role-tab {{isBaker ? 'active' : ''}}" data-role="baker" bindtap="switchRole">
+        <text>蛋糕师傅端</text>
+      </button>
+    </view>
+  </view>
+
+  <view wx:if="{{isAuthenticated && phoneBound && !accountPanelExpanded}}" id="login-anchor" class="panel account-summary-panel">
+    <view class="section-head">
+      <view>
+        <text class="section-title">账号已就绪</text>
+        <text class="muted">已完成微信登录和手机号绑定，默认收起详细说明，避免页面过长。</text>
+      </view>
+      <button class="link-button compact-link" bindtap="toggleAccountPanel">管理账号</button>
+    </view>
+    <view class="account-summary-pills">
+      <view class="account-summary-pill">
+        <text class="account-summary-label">微信</text>
+        <text class="account-summary-value">{{loginStatus}}</text>
+      </view>
+      <view class="account-summary-pill phone-pill">
+        <text class="account-summary-label">手机号</text>
+        <text class="account-summary-value">{{phoneStatus}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else id="login-anchor" class="panel auth-panel {{authFocus ? 'focus' : ''}}">
+    <view class="section-head">
+      <text class="section-title">账号登录</text>
+      <button wx:if="{{isAuthenticated && phoneBound}}" class="link-button compact-link" bindtap="toggleAccountPanel">收起</button>
+      <text wx:else class="section-note">微信与手机号</text>
+    </view>
+    <view class="status-list auth-status">
+      <view class="status-row">
+        <text>微信</text>
+        <text>{{loginStatus}}</text>
+      </view>
+      <view class="status-row">
+        <text>手机号</text>
+        <text>{{phoneStatus}}</text>
+      </view>
+    </view>
+    <view class="auth-step-tip">
+      <text>{{authStepSummary}}</text>
+    </view>
+    <text class="muted auth-hint">{{authHint}}</text>
+    <view class="actions auth-actions">
+      <button class="primary-button" loading="{{authLoading}}" disabled="{{authLoading || canBindPhone}}" bindtap="loginWithWechat">{{canBindPhone ? '微信已登录' : '微信一键登录'}}</button>
+      <button wx:if="{{phoneBound}}" class="ghost-button" disabled>手机号已绑定</button>
+      <button wx:elif="{{canBindPhone}}" class="ghost-button" loading="{{phoneLoading}}" disabled="{{phoneLoading}}" open-type="getPhoneNumber" bindgetphonenumber="loginWithPhone">{{phoneBound ? '手机号已绑定' : '继续绑定手机号'}}</button>
+      <button wx:else class="ghost-button" disabled="{{authLoading}}" bindtap="showPhoneLoginPrerequisite">手机号绑定</button>
+    </view>
+  </view>
+
+  <view wx:if="{{isPlayer}}">
+    <view class="panel role-panel player-panel">
+      <view class="role-head">
+        <view>
+          <text class="eyebrow">玩家工作区</text>
+          <text class="role-title">{{playerProfile.level}}</text>
+          <text class="muted">接创作任务，生成蛋糕作品，发布论坛或制作需求。</text>
+        </view>
+        <view class="role-badge">玩家</view>
+      </view>
+      <view class="badge-row" wx:if="{{playerProfile.badges.length}}">
+        <text class="tag" wx:for="{{playerProfile.badges}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <block wx:if="{{isAuthenticated}}">
+      <view class="workspace-tabs">
+        <button class="workspace-tab {{playerWorkspaceTab === 'overview' ? 'active' : ''}}" data-tab="overview" bindtap="switchPlayerWorkspaceTab">
+          <text>总览</text>
+        </button>
+        <button class="workspace-tab {{playerWorkspaceTab === 'records' ? 'active' : ''}}" data-tab="records" bindtap="switchPlayerWorkspaceTab">
+          <text>记录</text>
+        </button>
+        <button class="workspace-tab {{playerWorkspaceTab === 'tools' ? 'active' : ''}}" data-tab="tools" bindtap="switchPlayerWorkspaceTab">
+          <text>入口</text>
+        </button>
+      </view>
+
+      <block wx:if="{{playerWorkspaceTab === 'overview'}}">
+        <view class="panel checkin-panel">
+          <view class="section-head">
+            <view>
+              <text class="section-title">每日签到</text>
+              <text class="muted">签到可获得 1 束玫瑰和 10 创作积分，用来互动和继续微调作品。</text>
+            </view>
+            <view class="balance-pills">
+              <text class="balance-pill rose-pill">{{roseBalance}} 束</text>
+              <text class="balance-pill credit-pill">{{creationCreditBalance}} 积分</text>
+            </view>
+          </view>
+          <button class="secondary-button checkin-button" bindtap="checkInRose">{{checkInStatus}}</button>
+        </view>
+
+        <view class="panel credit-panel">
+          <view class="section-head">
+            <view>
+              <text class="section-title">创作积分</text>
+              <text class="muted">免费基础生成用完后，生成或微调会按次消耗创作积分；可签到领取，也可在这里直接充值。</text>
+            </view>
+            <text class="credit-count">{{creationCreditBalance}} 积分</text>
+          </view>
+          <view class="status-list">
+            <view class="status-row">
+              <text>今日基础生成</text>
+              <text>{{dailyFreeGenerationStatus}}</text>
+            </view>
+            <view class="status-row">
+              <text>充值通道</text>
+              <text>{{creationRechargeStatus}}</text>
+            </view>
+          </view>
+          <view class="mine-recharge-card">
+            <view class="mine-recharge-copy">
+              <text class="mine-recharge-title">轻量补给</text>
+              <text class="mine-recharge-price">¥6 / 60 积分</text>
+              <text class="muted">{{creationRechargeHint}}</text>
+            </view>
+            <button
+              class="primary-button mine-recharge-button"
+              loading="{{rechargeLoading}}"
+              disabled="{{rechargeLoading}}"
+              bindtap="submitMineRecharge"
+            >
+              {{isAuthenticated ? '轻量补给 ¥6' : '登录后充值 ¥6'}}
+            </button>
+          </view>
+        </view>
+
+        <view class="panel">
+          <text class="section-title">当前交易流程</text>
+          <view class="status-list">
+            <view class="status-row" wx:for="{{flowStatus}}" wx:key="label">
+              <text>{{item.label}}</text>
+              <text>{{item.value}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <block wx:elif="{{playerWorkspaceTab === 'records'}}">
+        <view class="panel">
+          <view class="section-head">
+            <text class="section-title">任务/灵感券</text>
+            <button class="link-button" bindtap="showInspirationRule">用途说明</button>
+          </view>
+          <view class="metric-grid">
+            <view class="metric-card">
+              <text class="metric-value">{{completedTaskCount}} 个</text>
+              <text class="metric-label">已完成任务</text>
+            </view>
+            <view class="metric-card">
+              <text class="metric-value">{{taskWallet.pending}} 点</text>
+              <text class="metric-label">灵感券待审核</text>
+            </view>
+            <view class="metric-card">
+              <text class="metric-value">{{taskWallet.approved}} 点</text>
+              <text class="metric-label">可用灵感券</text>
+            </view>
+            <view class="metric-card">
+              <text class="metric-value">{{taskWallet.roses}} 束</text>
+              <text class="metric-label">玫瑰余额</text>
+            </view>
+          </view>
+          <text class="muted task-wallet-note">完成今日创作任务后，灵感券先进入待审，审核通过后再用于生成、微调、曝光和点评权益。</text>
+        </view>
+
+        <view class="panel">
+          <view class="section-head">
+            <text class="section-title">创作数据</text>
+            <button class="link-button" bindtap="showRewardRule">获得规则</button>
+          </view>
+          <view class="metric-grid">
+            <view class="metric-card" wx:for="{{playerStats}}" wx:key="label">
+              <text class="metric-value">{{item.value}}</text>
+              <text class="metric-label">{{item.label}}</text>
+            </view>
+          </view>
+          <button class="ghost-button inspiration-button" bindtap="showInspirationRule">灵感券用途</button>
+        </view>
+
+        <view class="panel history-panel">
+          <view class="section-head">
+            <text class="section-title">我的历史</text>
+            <text class="section-note">{{historyLoading ? '同步中' : historyStatusLabel}}</text>
+          </view>
+          <view class="metric-grid">
+            <view class="metric-card" wx:for="{{historySummary}}" wx:key="label">
+              <text class="metric-value">{{item.value}}</text>
+              <text class="metric-label">{{item.label}}</text>
+            </view>
+          </view>
+          <view class="history-summary-strip">
+            <text class="muted">{{historyExpanded ? '最近记录已展开，可直接顺着往下看。' : '最近记录默认收起，先看摘要，避免页面过长。'}}</text>
+            <button class="ghost-button history-toggle-button" bindtap="toggleHistoryPanel">{{historyExpanded ? '收起最近记录' : '展开最近记录'}}</button>
+          </view>
+          <view class="actions two-col-actions history-quick-links">
+            <button class="ghost-button" bindtap="goWorks">看作品</button>
+            <button class="ghost-button" bindtap="goQuotes">看报价</button>
+            <button class="secondary-button" bindtap="goOrders">看订单</button>
+            <button class="ghost-button" bindtap="goSupport">售后记录</button>
+          </view>
+
+          <block wx:if="{{historyExpanded}}">
+            <view class="history-block">
+              <text class="history-heading">最近作品</text>
+              <view wx:if="{{recentWorks.length}}">
+                <view class="history-row" wx:for="{{recentWorks}}" wx:key="id">
+                  <image class="history-thumb" wx:if="{{item.imageUrl}}" src="{{item.imageUrl}}" mode="aspectFill" />
+                  <view class="history-body">
+                    <text class="history-title">{{item.title}}</text>
+                    <text class="muted">{{item.meta}}</text>
+                  </view>
+                </view>
+              </view>
+              <text class="muted" wx:else>暂无作品记录。</text>
+            </view>
+
+            <view class="history-block">
+              <text class="history-heading">最近需求</text>
+              <view wx:if="{{recentDemands.length}}">
+                <view class="history-row" wx:for="{{recentDemands}}" wx:key="id">
+                  <view class="history-body">
+                    <text class="history-title">{{item.title}}</text>
+                    <text class="muted">{{item.meta}}</text>
+                  </view>
+                </view>
+              </view>
+              <text class="muted" wx:else>暂无制作需求。</text>
+            </view>
+
+            <view class="history-block">
+              <text class="history-heading">最近订单</text>
+              <view wx:if="{{recentOrders.length}}">
+                <view class="history-row" wx:for="{{recentOrders}}" wx:key="id">
+                  <view class="history-body">
+                    <text class="history-title">{{item.title}}</text>
+                    <text class="muted">{{item.meta}}</text>
+                  </view>
+                </view>
+              </view>
+              <text class="muted" wx:else>暂无订单意向。</text>
+            </view>
+          </block>
+        </view>
+      </block>
+
+      <block wx:elif="{{playerWorkspaceTab === 'tools'}}">
+        <view class="panel">
+          <text class="section-title">玩家快捷入口</text>
+          <view class="actions two-col-actions">
+            <button class="primary-button" bindtap="goDesign">AI 设计蛋糕</button>
+            <button class="secondary-button" bindtap="goOrders">我的订单</button>
+            <button class="ghost-button" bindtap="goWorks">作品广场</button>
+            <button class="ghost-button" bindtap="goQuotes">报价确认</button>
+            <button class="ghost-button" bindtap="goSupport">售后投诉</button>
+            <button class="ghost-button" bindtap="goRules">平台规则</button>
+          </view>
+        </view>
+      </block>
+    </block>
+
+    <view wx:else class="panel unlock-panel">
+      <view class="section-head">
+        <view>
+          <text class="section-title">登录后解锁玩家工作台</text>
+          <text class="muted">先完成微信登录，再同步作品、任务、订单和售后状态。</text>
+        </view>
+        <text class="section-note">正式账号</text>
+      </view>
+      <view class="status-list">
+        <view class="status-row">
+          <text>作品与微调记录</text>
+          <text>登录后同步</text>
+        </view>
+        <view class="status-row">
+          <text>需求、报价与订单</text>
+          <text>完成登录后开启</text>
+        </view>
+        <view class="status-row">
+          <text>手机号与售后沟通</text>
+          <text>第 2 步绑定</text>
+        </view>
+      </view>
+      <view class="actions two-col-actions compact-actions">
+        <button class="primary-button" bindtap="loginWithWechat">微信登录</button>
+        <button class="ghost-button" bindtap="goWorks">先看作品</button>
+      </view>
+    </view>
+
+    <view class="panel" wx:if="{{!isAuthenticated}}">
+      <text class="section-title">{{isAuthenticated ? '玩家快捷入口' : '公开入口'}}</text>
+      <view class="actions two-col-actions">
+        <button class="primary-button" bindtap="goDesign">AI 设计蛋糕</button>
+        <button class="ghost-button" bindtap="goWorks">作品广场</button>
+        <button class="ghost-button" bindtap="goBakers">接单广场</button>
+        <button class="ghost-button" bindtap="goRules">平台规则</button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{isBaker}}">
+    <view class="panel role-panel baker-panel">
+      <view class="role-head">
+        <view>
+          <text class="eyebrow">师傅工作区</text>
+          <text class="role-title">{{bakerProfile.name}}</text>
+          <text class="muted">浏览长治需求，基于图片、预算和交付时间进行报价。</text>
+        </view>
+        <view class="role-badge baker-badge">师傅</view>
+      </view>
+      <view class="tag-row compact-tags">
+        <text class="tag" wx:for="{{bakerProfile.specialties}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <block wx:if="{{showBakerWorkbench}}">
+      <view class="panel">
+        <view class="section-head">
+          <text class="section-title">接单数据</text>
+          <button class="link-button" bindtap="showBakerOnboarding">入驻资料</button>
+        </view>
+        <view class="metric-grid">
+          <view class="metric-card" wx:for="{{bakerStats}}" wx:key="label">
+            <text class="metric-value">{{item.value}}</text>
+            <text class="metric-label">{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="panel">
+        <text class="section-title">认证与服务设置</text>
+        <view class="status-list">
+          <view class="status-row" wx:for="{{certificates}}" wx:key="label">
+            <text>{{item.label}}</text>
+            <text>{{item.value}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="panel">
+        <view class="section-head">
+          <text class="section-title">履约订单</text>
+          <text class="section-note">{{bakerOrdersLoading ? '同步中' : bakerOrdersStatusLabel}}</text>
+        </view>
+        <view class="baker-order-list" wx:if="{{bakerOrders.length}}">
+          <view class="baker-order-card" wx:for="{{bakerOrders}}" wx:key="id">
+            <image class="baker-order-image" wx:if="{{item.imageUrl}}" src="{{item.imageUrl}}" mode="aspectFill" />
+            <view class="baker-order-body">
+              <view class="baker-order-head">
+                <text class="history-title">{{item.title}}</text>
+                <text class="fulfillment-pill">{{item.fulfillmentStatus}}</text>
+              </view>
+              <text class="muted">{{item.meta}}</text>
+              <text class="muted order-note">{{item.note}}</text>
+              <view class="fulfillment-actions">
+                <button class="mini-action" data-id="{{item.id}}" data-status="baker_confirmed" bindtap="updateBakerFulfillment">确认制作</button>
+                <button class="mini-action producing" data-id="{{item.id}}" data-status="producing" bindtap="updateBakerFulfillment">制作中</button>
+                <button class="mini-action done" data-id="{{item.id}}" data-status="completed" bindtap="updateBakerFulfillment">完成订单</button>
+              </view>
+            </view>
+          </view>
+        </view>
+        <text class="muted" wx:else>暂无待履约订单。用户确认报价意向后会出现在这里。</text>
+      </view>
+    </block>
+
+    <view wx:elif="{{isAuthenticated}}" class="panel unlock-panel">
+      <view class="section-head">
+        <view>
+          <text class="section-title">先完善师傅入驻</text>
+          <text class="muted">现在先把资质、服务范围和联系方式补齐，再开始正式接单。</text>
+        </view>
+        <text class="section-note">入驻中</text>
+      </view>
+      <view class="status-list">
+        <view class="status-row">
+          <text>健康证与营业执照</text>
+          <text>待提交</text>
+        </view>
+        <view class="status-row">
+          <text>接单与报价记录</text>
+          <text>完成入驻后开启</text>
+        </view>
+        <view class="status-row">
+          <text>履约订单同步</text>
+          <text>确认意向后出现</text>
+        </view>
+      </view>
+      <view class="actions two-col-actions compact-actions">
+        <button class="primary-button" bindtap="goOnboarding">完善资质</button>
+        <button class="ghost-button" bindtap="goBakers">先看需求</button>
+      </view>
+    </view>
+
+    <view wx:else class="panel unlock-panel">
+      <view class="section-head">
+        <view>
+          <text class="section-title">登录后开启师傅工作台</text>
+          <text class="muted">先确认微信账号，再完善资质、查看订单和跟进履约。</text>
+        </view>
+        <text class="section-note">正式接单</text>
+      </view>
+      <view class="status-list">
+        <view class="status-row">
+          <text>资质上传与审核</text>
+          <text>登录后开始</text>
+        </view>
+        <view class="status-row">
+          <text>报价与履约订单</text>
+          <text>完成入驻后开启</text>
+        </view>
+        <view class="status-row">
+          <text>售后协商记录</text>
+          <text>登录后同步</text>
+        </view>
+      </view>
+      <view class="actions two-col-actions compact-actions">
+        <button class="primary-button" bindtap="loginWithWechat">微信登录</button>
+        <button class="ghost-button" bindtap="goBakers">先看需求</button>
+      </view>
+    </view>
+
+    <view class="panel">
+      <text class="section-title">{{showBakerWorkbench ? '师傅快捷入口' : '公开入口'}}</text>
+      <view class="actions two-col-actions">
+        <button class="primary-button" bindtap="goBakers">看长治需求</button>
+        <button class="ghost-button" bindtap="goOnboarding">完善资质</button>
+        <block wx:if="{{showBakerWorkbench}}">
+          <button class="ghost-button" bindtap="goQuotes">报价记录</button>
+          <button class="secondary-button" bindtap="goOrders">订单配送</button>
+          <button class="ghost-button" bindtap="goSupport">售后投诉</button>
+          <button class="ghost-button" bindtap="goRules">平台规则</button>
+        </block>
+        <block wx:else>
+          <button class="ghost-button" bindtap="goWorks">作品广场</button>
+          <button class="ghost-button" bindtap="goRules">平台规则</button>
+        </block>
+      </view>
+    </view>
+  </view>
+</view>

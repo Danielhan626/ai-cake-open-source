@@ -1,0 +1,186 @@
+<view class="page home-page">
+  <view class="location-row">
+    <view>
+      <text class="location-city">{{city}} · {{district}}</text>
+      <text class="location-source">{{locationSource}}</text>
+    </view>
+    <view class="location-actions">
+      <button class="location-button" loading="{{locationLoading}}" disabled="{{locationLoading}}" bindtap="locateCurrentCity">{{locationLoading ? '定位中' : '重新定位'}}</button>
+      <picker range="{{supportedCities}}" value="{{orderCityIndex}}" bindchange="onOrderCityChange">
+        <view class="city-picker">为朋友定蛋糕：{{supportedCities[orderCityIndex]}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="hero-shell">
+    <view class="hero-kicker">
+      <text>今日创作工坊</text>
+      <text>{{city}}服务站</text>
+    </view>
+    <text class="hero-title">{{primaryChallenge.title || '接一个任务，画出今天的蛋糕'}}</text>
+    <text class="hero-copy">{{primaryChallenge.botLine || 'AI 先出图，继续微调；喜欢就发广场，或做成真实蛋糕。'}}</text>
+    <view class="hero-mini-stats">
+      <view class="hero-mini-stat" wx:for="{{quickStats}}" wx:key="label">
+        <text>{{item.value}}</text>
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+    <view class="hero-actions">
+      <button class="primary-button hero-primary cream-button" bindtap="playPrimaryChallenge">开始创作</button>
+      <button class="ghost-button hero-ghost" bindtap="goWorks">逛作品</button>
+    </view>
+    <view class="hero-tray">
+      <view class="hero-cake">
+        <view class="cake-layer top"></view>
+        <view class="cake-layer middle"></view>
+        <view class="cake-layer bottom"></view>
+      </view>
+      <view class="hero-note">
+        <text>灵感官每天给题</text>
+        <text>投票、玫瑰、做同款</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-block loop-block">
+    <view class="section-head">
+      <text class="section-title">从创作到成交</text>
+      <text class="section-note">每一步都有真实状态</text>
+    </view>
+    <view class="loop-strip">
+      <view class="loop-step">
+        <text class="loop-index">1</text>
+        <view>
+          <text class="loop-title">提前发题</text>
+          <text class="loop-copy">营销日历提前发布，创作者用积分参赛。</text>
+        </view>
+      </view>
+      <view class="loop-step">
+        <text class="loop-index">2</text>
+        <view>
+          <text class="loop-title">评审认同</text>
+          <text class="loop-copy">AI 点评、观众投票送花，优质作品进入官方审核。</text>
+        </view>
+      </view>
+      <view class="loop-step">
+        <text class="loop-index">3</text>
+        <view>
+          <text class="loop-title">奖励与制作</text>
+          <text class="loop-copy">奖励池按活动规则审核；喜欢的作品可做同款并进入师傅报价。</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-block trust-entry">
+    <view class="trust-entry-head">
+      <text class="section-title">做同款前，先把确定性说清楚</text>
+      <text class="section-note">从图片到成品</text>
+    </view>
+    <view class="trust-entry-list">
+      <text>尺寸、口味和配送时间先确认</text>
+      <text>师傅报价写明可还原程度和调整范围</text>
+      <text>订单保留改信息、取消、签收和售后规则</text>
+    </view>
+  </view>
+
+  <view class="section-block">
+    <view class="section-head">
+      <text class="section-title">今日任务</text>
+      <button class="link-button task-hub-button" bindtap="goTaskHub">全部赛题</button>
+    </view>
+    <view class="calendar-task-board">
+      <view class="calendar-promise">
+        <view wx:for="{{calendarNotes}}" wx:key="label">
+          <text>{{item.value}}</text>
+          <text>{{item.label}}</text>
+        </view>
+      </view>
+      <view class="task-cycle-strip" wx:if="{{taskCycleSummary.length}}">
+        <view class="task-cycle-cell" wx:for="{{taskCycleSummary}}" wx:key="key">
+          <text class="task-cycle-value">{{item.value}}</text>
+          <text class="task-cycle-title">{{item.title}}</text>
+          <text class="task-cycle-note">{{item.note}}</text>
+        </view>
+      </view>
+      <text class="task-mode-note" wx:if="{{taskSummary.source === 'backend'}}">真实参赛任务已发布，接题后进入设计页。</text>
+      <text class="task-mode-note practice" wx:else>当前是练习模式，不计真实奖励；正式任务发布后会显示参赛状态。</text>
+
+      <view class="challenge-card featured-task-card" wx:if="{{primaryChallenge}}">
+        <view class="challenge-head">
+          <text class="challenge-title">{{primaryChallenge.title}}</text>
+          <text class="start-pill">{{primaryChallenge.periodLabel || primaryChallenge.rewardLabel}}</text>
+        </view>
+        <view class="task-meta-row">
+          <text>参与人数 {{primaryChallenge.participantCount}}</text>
+          <text>任务状态 {{primaryChallenge.rewardStatusText}}</text>
+        </view>
+        <text class="bot-line">{{primaryChallenge.botLine}}</text>
+        <text class="task-brief">{{primaryChallenge.prompt}}</text>
+        <text class="task-cycle">{{primaryChallenge.scheduleText}}</text>
+        <text class="task-money-note">{{primaryChallenge.rewardTeaser}}</text>
+        <view class="tag-row mini-tags">
+          <text class="tag" wx:for="{{primaryChallenge.tags}}" wx:key="*this">{{item}}</text>
+        </view>
+        <button class="task-start-button" bindtap="playPrimaryChallenge">{{primaryChallenge.source === 'local-practice' ? '练习这题' : '开始参赛'}}</button>
+      </view>
+
+      <view class="challenge-groups" wx:if="{{challengeGroups.length}}">
+        <view class="challenge-group" wx:for="{{challengeGroups}}" wx:for-item="group" wx:key="key">
+          <view class="challenge-group-head">
+            <text class="challenge-group-title">{{group.title}}</text>
+            <text class="challenge-group-note">{{group.note}}</text>
+          </view>
+          <view class="upcoming-task-list">
+            <view class="upcoming-task" wx:for="{{group.tasks}}" wx:for-item="task" wx:key="id">
+              <view>
+                <text class="upcoming-title">{{task.title}}</text>
+                <text class="upcoming-rule">{{task.periodLabel}} · {{task.scheduleText}}</text>
+              </view>
+              <button class="upcoming-action" bindtap="playChallenge" data-id="{{task.id}}">{{task.source === 'local-practice' ? '练习' : '创作'}}</button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-block gallery-entry">
+    <view class="section-head">
+      <text class="section-title">作品广场</text>
+      <button class="link-button" bindtap="goWorks">去逛逛</button>
+    </view>
+    <view class="gallery-entry-card">
+      <view>
+        <text class="gallery-entry-title">看见喜欢的蛋糕，直接做同款</text>
+        <text class="gallery-entry-copy">投票、送玫瑰；想买时，一键变成制作需求。</text>
+      </view>
+      <view class="gallery-highlight-list">
+        <view class="gallery-highlight" wx:for="{{galleryHighlights}}" wx:key="title">
+          <text>{{item.title}}</text>
+          <text>{{item.desc}}</text>
+        </view>
+      </view>
+      <button class="ghost-button gallery-entry-button" bindtap="goWorks">打开作品广场</button>
+    </view>
+  </view>
+
+  <view class="section-block starter-guide">
+    <button class="starter-summary" bindtap="toggleStarterGuide">
+      <view>
+        <text class="section-title starter-summary-title">第一次来怎么玩</text>
+        <text class="starter-flow">接任务 → 生成 → 发布/做同款</text>
+      </view>
+      <text class="starter-toggle">{{showStarterGuide ? '收起' : '展开'}}</text>
+    </button>
+    <view class="starter-list collapsed-guide" wx:if="{{showStarterGuide}}">
+      <view class="starter-card" wx:for="{{starterSteps}}" wx:key="title">
+        <text class="starter-index">{{index + 1}}</text>
+        <view>
+          <text class="starter-title">{{item.title}}</text>
+          <text class="starter-desc">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

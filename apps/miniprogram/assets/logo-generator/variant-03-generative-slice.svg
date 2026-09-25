@@ -1,0 +1,14 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI Ruiyi fruit cake logo variant 3 generative slice">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M28 72 68 28c5 14 5 29 0 44H28Z" stroke-width="3.5"/>
+    <path d="M39 60h30" stroke-width="3" opacity="0.7"/>
+    <path d="M49 49h23" stroke-width="3" opacity="0.7"/>
+    <path d="M58 38h13" stroke-width="3" opacity="0.7"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="31" cy="38" r="2.8" opacity="0.45"/>
+    <circle cx="39" cy="30" r="2.4" opacity="0.65"/>
+    <circle cx="49" cy="22" r="2"/>
+    <circle cx="75" cy="76" r="2.6"/>
+  </g>
+</svg>

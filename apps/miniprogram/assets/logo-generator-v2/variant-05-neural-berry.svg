@@ -1,0 +1,15 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI Ruiyi Cake logo v2 neural berry">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 31 50 23l18 8M32 31l7 19M68 31l-7 19M39 50h22" stroke-width="2.6" opacity="0.7"/>
+    <path d="M29 75h42" stroke-width="3.3"/>
+    <path d="M36 70h28c4 0 7-3 7-7V52H29v11c0 4 3 7 7 7Z" stroke-width="3.3"/>
+    <path d="M35 52c4-7 12-7 17-1 5-6 12-6 17 1" stroke-width="3.2"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="50" cy="23" r="5.8"/>
+    <circle cx="32" cy="31" r="3.7"/>
+    <circle cx="68" cy="31" r="3.7"/>
+    <circle cx="39" cy="50" r="3.4"/>
+    <circle cx="61" cy="50" r="3.4"/>
+  </g>
+</svg>

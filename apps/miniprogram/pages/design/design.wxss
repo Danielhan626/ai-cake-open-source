@@ -1,0 +1,413 @@
+.design-page {
+  padding-bottom: 52rpx;
+}
+
+.design-hero {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(159, 215, 190, 0.28), transparent 28%),
+    linear-gradient(135deg, rgba(255, 254, 251, 0.96), rgba(255, 241, 232, 0.96));
+}
+
+.title {
+  margin-bottom: 0;
+}
+
+.compact-head {
+  align-items: flex-start;
+  gap: 14rpx;
+}
+
+.compact-subtitle {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 22rpx;
+}
+
+.compact-toggle {
+  flex: 0 0 auto;
+  width: 150rpx;
+  min-width: 0;
+  min-height: 58rpx;
+  margin: 0;
+  padding: 0 16rpx;
+  font-size: 22rpx;
+}
+
+.recipe-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin: 14rpx 0 20rpx;
+}
+
+.recipe-summary text {
+  padding: 8rpx 12rpx;
+  border-radius: 999rpx;
+  color: #5f6964;
+  background: #edf8f2;
+  font-size: 21rpx;
+  font-weight: 800;
+}
+
+.prompt-textarea {
+  min-height: 180rpx;
+}
+
+.advanced-recipe {
+  margin-top: 8rpx;
+}
+
+.design-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14rpx;
+}
+
+.generate-action {
+  margin-top: 20rpx;
+}
+
+.task-panel {
+  margin-top: 18rpx;
+}
+
+.design-cycle-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10rpx;
+  margin-bottom: 14rpx;
+}
+
+.task-cycle-cell {
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 14rpx 12rpx;
+  border: 1rpx solid rgba(94, 73, 53, 0.08);
+  border-radius: 16rpx;
+  background: #fffefb;
+}
+
+.task-cycle-value {
+  display: block;
+  color: #302923;
+  font-size: 24rpx;
+  font-weight: 930;
+  line-height: 1.1;
+}
+
+.task-cycle-title {
+  display: block;
+  margin-top: 8rpx;
+  color: #2f6f5f;
+  font-size: 21rpx;
+  font-weight: 860;
+  line-height: 1.2;
+}
+
+.task-cycle-note {
+  display: block;
+  margin-top: 6rpx;
+  color: #75675e;
+  font-size: 18rpx;
+  line-height: 1.3;
+}
+
+.active-task-compact {
+  display: grid;
+  gap: 12rpx;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 18rpx;
+  border-radius: 16rpx;
+  background: #fff2ee;
+}
+
+.contest-lead {
+  display: grid;
+  gap: 12rpx;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 18rpx;
+  border: 1rpx solid rgba(47, 124, 103, 0.12);
+  border-radius: 18rpx;
+  background:
+    linear-gradient(135deg, rgba(237, 248, 242, 0.92), rgba(255, 254, 251, 0.96));
+}
+
+.contest-kicker {
+  color: #2f6f5f;
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
+.contest-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8rpx;
+}
+
+.contest-flow text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48rpx;
+  padding: 0 6rpx;
+  border-radius: 12rpx;
+  color: #6b5147;
+  background: #fff7f3;
+  text-align: center;
+  font-size: 19rpx;
+  font-weight: 850;
+  line-height: 1.15;
+}
+
+.contest-action {
+  min-height: 68rpx;
+  margin: 2rpx 0 0;
+  border-radius: 14rpx;
+  font-size: 24rpx;
+}
+
+.quiet-empty {
+  padding: 18rpx;
+  border-radius: 16rpx;
+  background: #fffefb;
+}
+
+.score-board {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin-top: 24rpx;
+  padding: 22rpx;
+  border: 1rpx solid rgba(94, 73, 53, 0.08);
+  border-radius: 18rpx;
+  background: #fffefb;
+}
+
+.score-number {
+  display: block;
+  color: #cc5d66;
+  font-size: 56rpx;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.score-label {
+  display: block;
+  margin-top: 6rpx;
+  color: #71685f;
+  font-size: 24rpx;
+}
+
+.score-badge {
+  padding: 12rpx 20rpx;
+  border-radius: 999rpx;
+  color: #2f6f5f;
+  background: #edf8f2;
+  font-size: 26rpx;
+  font-weight: 800;
+}
+
+.credit-overview {
+  display: grid;
+  gap: 8rpx;
+  margin-top: 16rpx;
+  color: #6f6158;
+  font-size: 22rpx;
+  line-height: 1.4;
+}
+
+.quest-list {
+  display: grid;
+  gap: 16rpx;
+}
+
+.quest-group {
+  display: grid;
+  gap: 12rpx;
+  min-width: 0;
+  padding: 14rpx;
+  border: 1rpx solid rgba(94, 73, 53, 0.08);
+  border-radius: 18rpx;
+  background: rgba(255, 254, 251, 0.7);
+}
+
+.quest-group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  gap: 12rpx;
+}
+
+.quest-group-title {
+  color: #302923;
+  font-size: 26rpx;
+  font-weight: 930;
+}
+
+.quest-group-note {
+  flex: 0 0 auto;
+  max-width: 260rpx;
+  color: #7a6f65;
+  font-size: 20rpx;
+  line-height: 1.25;
+  text-align: right;
+}
+
+.task-calendar {
+  display: block;
+  margin: 8rpx 0 18rpx;
+  font-size: 21rpx;
+  line-height: 1.42;
+}
+
+.quest-card {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 18rpx;
+  border: 1rpx solid rgba(94, 73, 53, 0.1);
+  border-radius: 20rpx;
+  background: #fffefb;
+}
+
+.quest-card.active {
+  border-color: rgba(204, 93, 102, 0.42);
+  background: #fff2ee;
+  box-shadow: 0 14rpx 30rpx rgba(204, 93, 102, 0.08);
+}
+
+.quest-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  gap: 16rpx;
+  margin-bottom: 8rpx;
+}
+
+.quest-title {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  color: #302923;
+  font-size: 27rpx;
+  font-weight: 850;
+  line-height: 1.28;
+  overflow-wrap: break-word;
+}
+
+.reward-pill {
+  flex: 0 0 auto;
+  max-width: 180rpx;
+  box-sizing: border-box;
+  padding: 7rpx 14rpx;
+  border-radius: 999rpx;
+  color: #ffffff;
+  background: #cc5d66;
+  text-align: center;
+  font-size: 22rpx;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.bot-line {
+  display: block;
+  margin-bottom: 8rpx;
+  color: #2f6f5f;
+  font-size: 21rpx;
+  font-weight: 760;
+  line-height: 1.35;
+}
+
+.task-state-row {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
+  gap: 10rpx;
+  margin: 12rpx 0;
+}
+
+.task-state-row text {
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 8rpx 12rpx;
+  border-radius: 999rpx;
+  color: #5f6964;
+  background: #edf8f2;
+  font-size: 19rpx;
+  font-weight: 800;
+  overflow-wrap: break-word;
+}
+
+.quest-rule,
+.task-reward-note {
+  display: block;
+  color: #7a5346;
+  font-size: 22rpx;
+  font-weight: 800;
+  line-height: 1.42;
+}
+
+.task-reward-note.practice {
+  color: #6f6158;
+}
+
+.task-period-text {
+  display: block;
+  color: #6f6158;
+  font-size: 21rpx;
+  line-height: 1.38;
+}
+
+.quest-select-button {
+  min-height: 62rpx;
+  margin: 4rpx 0 0;
+  border-radius: 14rpx;
+  font-size: 23rpx;
+}
+
+.active-task {
+  border-color: rgba(204, 93, 102, 0.28);
+  background:
+    linear-gradient(90deg, rgba(255, 242, 238, 0.82), rgba(255, 254, 251, 0.96));
+}
+
+.reward-note {
+  display: block;
+  margin-top: 14rpx;
+  color: #b94e58;
+  font-size: 22rpx;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.task-tags {
+  margin-top: 12rpx;
+}
+
+.prop-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+}
+
+.prop-chip {
+  padding: 14rpx 18rpx;
+  border: 1rpx solid rgba(94, 73, 53, 0.12);
+  border-radius: 999rpx;
+  color: #4b4139;
+  background: #fffefb;
+  font-size: 26rpx;
+}
+
+.prop-chip.active {
+  color: #ffffff;
+  background: #2f7c67;
+}

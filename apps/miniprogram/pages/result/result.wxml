@@ -1,0 +1,287 @@
+<view class="page result-page">
+  <view class="panel" wx:if="{{work}}">
+    <text class="eyebrow">AI 生成作品</text>
+    <text class="title">{{work.title}}</text>
+    <image class="cake-image result-image" src="{{work.imageUrl}}" mode="aspectFill" />
+    <view class="tag-row">
+      <text class="tag">{{work.scenario}}</text>
+      <text class="tag">{{work.style}}</text>
+      <text class="tag">{{work.color}}</text>
+      <text class="tag">{{work.size}}</text>
+      <text class="tag">{{work.budget}}</text>
+    </view>
+  </view>
+
+  <view class="panel game-result" wx:if="{{work && game}}">
+    <view class="game-score">
+      <view>
+        <text class="score-number">{{game.score}}</text>
+        <text class="score-label">创作值</text>
+      </view>
+      <view>
+        <text class="score-badge">{{game.badge}}</text>
+        <text class="muted game-challenge">{{game.challenge}}</text>
+      </view>
+    </view>
+    <view class="task-status-row">
+      <text class="task-status-pill">任务：{{game.challenge}}</text>
+      <text class="task-status-pill">灵感券：{{game.rewardStatus}}</text>
+    </view>
+    <view class="reward-box" wx:if="{{game.rewardAmount}}">
+      <text class="reward-amount">预计赛事奖励 {{game.rewardAmount}} 点</text>
+      <text class="muted">任务完成后，灵感券待审核；优胜作品结合 AI 点评、观众送花和官方后台审核进入奖励池，现金奖池以活动规则为准。</text>
+    </view>
+    <view class="tag-row">
+      <text class="tag">{{work.visibility === 'public' ? '已提交公开' : '仅自己可见'}}</text>
+      <text class="tag">审核：{{work.reviewStatus}}</text>
+    </view>
+  </view>
+
+  <view class="result-tabs" wx:if="{{work}}">
+    <button class="result-tab {{activeResultTab === 'actions' ? 'active' : ''}}" data-tab="actions" bindtap="switchResultTab">下一步</button>
+    <button class="result-tab {{activeResultTab === 'feedback' ? 'active' : ''}}" data-tab="feedback" bindtap="switchResultTab">互动</button>
+    <button class="result-tab {{activeResultTab === 'demand' ? 'active' : ''}}" data-tab="demand" bindtap="switchResultTab">制作</button>
+  </view>
+
+  <view class="panel action-panel" wx:if="{{work && activeResultTab === 'actions'}}">
+    <text class="section-title">下一步</text>
+    <view class="action-stack">
+      <button class="primary-button" loading="{{publishWorkLoading}}" disabled="{{publishWorkLoading || work.visibility === 'public'}}" bindtap="publishWorkToForum">{{work.visibility === 'public' ? '已提交审核' : '提交广场审核'}}</button>
+      <button class="secondary-button" data-tab="demand" bindtap="switchResultTab">填写制作需求</button>
+      <button class="ghost-button share-button" open-type="share">分享给朋友</button>
+    </view>
+    <view class="refine-box">
+      <text class="section-title small-title">继续微调</text>
+      <textarea
+        class="textarea refine-textarea"
+        value="{{refineNote}}"
+        bindinput="onRefineInput"
+        placeholder="例如：蝴蝶结再大一点，奶油少一点"
+      />
+      <button class="ghost-button refine-action" loading="{{loading}}" disabled="{{loading}}" bindtap="refineWork">继续微调设计</button>
+      <view class="credit-strip">
+        <view class="credit-copy">
+          <text class="credit-balance">{{creditSummary.balance}} 积分</text>
+          <text class="muted">{{creditSummary.refineCost}} 积分/次 · {{creditSummary.dailyFreeGenerationText}}</text>
+          <text class="muted">{{creditSummary.todayCheckedIn ? '今日签到已领取积分' : '今日签到可领 ' + creditSummary.checkInCredit + ' 积分'}}</text>
+        </view>
+        <view class="credit-strip-actions">
+          <button class="ghost-button compact-credit-button" bindtap="goMineForCheckIn">{{creditSummary.todayCheckedIn ? '去我的页' : '去签到'}}</button>
+          <button class="ghost-button compact-credit-button" bindtap="openRechargePanel">充值积分</button>
+        </view>
+      </view>
+      <view class="recharge-panel" wx:if="{{showRechargePanel}}">
+        <view class="section-head">
+          <view>
+            <text class="section-title small-title">创作积分充值</text>
+            <text class="muted">{{creditSummary.rechargeStatusText}}</text>
+          </view>
+          <button class="link-button recharge-close" bindtap="closeRechargePanel">收起</button>
+        </view>
+        <view class="recharge-grid" wx:if="{{creditSummary.products.length}}">
+          <button
+            class="recharge-card {{selectedRechargeProductId === item.id ? 'active' : ''}}"
+            wx:for="{{creditSummary.products}}"
+            wx:key="id"
+            bindtap="selectRechargeProduct"
+            data-productid="{{item.id}}"
+          >
+            <text class="recharge-credits">{{item.credits}} 积分</text>
+            <text class="recharge-amount">¥{{item.amount}}</text>
+            <text class="muted">{{item.description}}</text>
+          </button>
+        </view>
+        <view class="quiet-empty recharge-empty" wx:else>
+          <text class="muted">登录后显示可选充值档位。</text>
+        </view>
+        <text class="muted recharge-note">创作积分仅用于平台内 AI 创作，不可提现，不可转赠。</text>
+        <button class="secondary-button" loading="{{rechargeLoading}}" disabled="{{rechargeLoading}}" bindtap="submitRecharge">{{creditSummary.rechargeActionText}}</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="panel feedback-panel" wx:if="{{work && activeResultTab === 'feedback'}}">
+    <text class="section-title">观众互动</text>
+    <view class="feedback-loop">
+      <text>AI 点评</text>
+      <text>观众投票</text>
+      <text>送花认同</text>
+      <text>官方审核</text>
+    </view>
+    <view class="feedback-summary">
+      <text class="feedback-summary-title">这一步决定作品能不能进奖励池</text>
+      <text class="muted">先让朋友投票送花，再看多角度点评认同度；最终仍以官方后台审核和活动规则为准。</text>
+    </view>
+    <view class="interaction-grid">
+      <view class="interaction-card">
+        <view>
+          <text class="interaction-value">{{interaction.votes}}</text>
+          <text class="interaction-label">好看票</text>
+        </view>
+        <button class="mini-action" bindtap="voteWork">{{interaction.voted ? '已投票' : '投它好看'}}</button>
+      </view>
+      <view class="interaction-card">
+        <view>
+          <text class="interaction-value">{{interaction.roses}}</text>
+          <text class="interaction-label">玫瑰</text>
+        </view>
+        <button class="mini-action rose-action" bindtap="sendRose">{{interaction.roseSent ? '已送玫瑰' : '送玫瑰'}}</button>
+      </view>
+    </view>
+    <view class="audience-foot">
+      <text class="muted rose-balance">{{interaction.emptyText || interaction.roseBalanceText}}</text>
+      <button class="ghost-button audience-foot-button" wx:if="{{interaction.roseBalance <= 0}}" bindtap="goMineForCheckIn">去签到领玫瑰</button>
+    </view>
+
+    <view class="ai-section" wx:if="{{aiReviews.length}}">
+      <view class="review-summary-card">
+        <view>
+          <text class="section-title">六位评审各看一件事</text>
+          <text class="muted">每个模型只负责一个角度，让观众先看懂细节，再决定要不要加入创作。</text>
+        </view>
+        <button class="ghost-button review-summary-button" wx:if="{{aiReviews.length > 3}}" bindtap="toggleReviewPanel">{{reviewPanelExpanded ? '收起点评' : '展开全部点评'}}</button>
+      </view>
+      <view class="review-list">
+        <block wx:for="{{aiReviews}}" wx:key="name">
+          <view class="review-card" wx:if="{{reviewPanelExpanded || index < 3}}">
+            <view class="review-head">
+              <view class="review-seat-copy">
+                <text class="review-name">{{item.name}}</text>
+                <text class="review-focus">只看{{item.focus}}</text>
+              </view>
+              <text class="review-likes">{{item.likes}} 人认同</text>
+            </view>
+            <text class="review-line">{{item.line}}</text>
+            <button class="review-like {{item.liked ? 'liked' : ''}}" bindtap="likeReview" disabled="{{item.liked}}" data-botid="{{item.botId}}">{{item.liked ? '已认同' : '认同点评'}}</button>
+          </view>
+        </block>
+      </view>
+      <text class="muted review-more-hint" wx:if="{{!reviewPanelExpanded && aiReviews.length > 3}}">还有 {{aiReviews.length - 3}} 位评审：继续看制作沟通和微调建议。</text>
+    </view>
+  </view>
+
+  <view class="panel demand-form" wx:if="{{work && activeResultTab === 'demand'}}">
+    <text class="section-title">做同款下单</text>
+    <view class="same-style-confirm-card">
+      <view class="section-head">
+        <view>
+          <text class="same-style-title">真实制作说明</text>
+          <text class="muted">先确认边界，再让同城蛋糕师报价。</text>
+        </view>
+        <text class="confirm-state {{demandForm.productionNoticeAccepted ? 'active' : ''}}">{{demandForm.productionNoticeAccepted ? '已确认' : '待确认'}}</text>
+      </view>
+      <view class="production-notice-list">
+        <text wx:for="{{productionNoticeItems}}" wx:key="*this">{{item}}</text>
+      </view>
+      <button class="secondary-button confirm-notice-button" bindtap="toggleProductionNoticeAccepted">{{demandForm.productionNoticeAccepted ? '已了解，继续编辑' : '我知道，继续填写'}}</button>
+    </view>
+
+    <view class="demand-field-stack" wx:if="{{demandForm.productionNoticeAccepted}}">
+      <view class="same-style-summary">
+        <view>
+          <text>城市时间</text>
+          <text>{{demandForm.orderCity}}{{demandForm.orderDistrict}} · {{demandForm.expectedDate}}</text>
+        </view>
+        <view>
+          <text>参考尺寸</text>
+          <text>{{work.size}} · {{demandForm.servingsText}}</text>
+        </view>
+        <view>
+          <text>口味配送</text>
+          <text>{{demandForm.flavorText}} · {{demandForm.deliveryWindowText}}</text>
+        </view>
+      </view>
+      <text class="form-step-title">先填关键下单信息</text>
+      <view class="field">
+        <text class="label">需求说明</text>
+        <textarea class="textarea" value="{{demandForm.description}}" bindinput="onDescriptionInput" placeholder="例如：还原粉色蝴蝶结和手写祝福牌，奶油不要太甜" />
+      </view>
+      <view class="field-grid">
+        <view class="field">
+          <text class="label">订单城市</text>
+          <picker range="{{cityOptions}}" value="{{demandForm.orderCityIndex}}" bindchange="onOrderCityChange">
+            <view class="picker">{{demandForm.orderCity}} · {{demandForm.orderDistrict}}</view>
+          </picker>
+        </view>
+        <view class="field">
+          <text class="label">期望日期</text>
+          <picker mode="date" value="{{demandForm.expectedDate}}" bindchange="onExpectedDateChange">
+            <view class="picker">{{demandForm.expectedDate}}</view>
+          </picker>
+        </view>
+        <view class="field">
+          <text class="label">配送方式</text>
+          <picker range="{{deliveryOptions}}" value="{{demandForm.deliveryIndex}}" bindchange="onDeliveryChange">
+            <view class="picker">{{demandForm.deliveryText}}</view>
+          </picker>
+        </view>
+        <view class="field">
+          <text class="label">配送时间</text>
+          <picker range="{{deliveryWindowOptions}}" value="{{demandForm.deliveryWindowIndex}}" bindchange="onDeliveryWindowChange">
+            <view class="picker">{{demandForm.deliveryWindowText}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="field">
+        <text class="label">收货地址</text>
+        <input class="input" value="{{demandForm.address}}" bindinput="onAddressInput" placeholder="例如：长治市潞州区某小区，门牌号可稍后沟通" />
+      </view>
+      <view class="field">
+        <text class="label">联系方式</text>
+        <input class="input" value="{{demandForm.contact}}" bindinput="onContactInput" placeholder="微信号或手机号" />
+      </view>
+      <button class="ghost-button detail-toggle" bindtap="toggleDemandDetails">{{demandDetailsOpen ? '收起制作偏好' : '补充制作偏好'}}</button>
+      <view class="detail-fields" wx:if="{{demandDetailsOpen}}">
+        <view class="field-grid">
+          <view class="field">
+            <text class="label">人数</text>
+            <picker range="{{servingOptions}}" value="{{demandForm.servingsIndex}}" bindchange="onServingsChange">
+              <view class="picker">{{demandForm.servingsText}}</view>
+            </picker>
+          </view>
+          <view class="field">
+            <text class="label">口味</text>
+            <picker range="{{flavorOptions}}" value="{{demandForm.flavorIndex}}" bindchange="onFlavorChange">
+              <view class="picker">{{demandForm.flavorText}}</view>
+            </picker>
+          </view>
+          <view class="field">
+            <text class="label">预算</text>
+            <picker range="{{budgetOptions}}" value="{{demandForm.budgetIndex}}" bindchange="onBudgetChange">
+              <view class="picker">{{demandForm.budgetText}}</view>
+            </picker>
+          </view>
+          <view class="field">
+            <text class="label">制作沟通等级</text>
+            <picker range="{{productionLevelOptions}}" range-key="label" value="{{demandForm.productionLevelIndex}}" bindchange="onProductionLevelChange">
+              <view class="picker">{{demandForm.productionLevelText}}</view>
+            </picker>
+          </view>
+        </view>
+        <view class="field">
+          <text class="label">贺卡/祝福语</text>
+          <input class="input" value="{{demandForm.recipientNote}}" bindinput="onRecipientNoteInput" placeholder="例如：生日快乐，愿你每天都有甜甜的光" />
+        </view>
+        <view class="field">
+          <text class="label">最想保留</text>
+          <textarea class="textarea small-textarea" value="{{demandForm.mustKeep}}" bindinput="onMustKeepInput" placeholder="例如：主色、蝴蝶结、足球装饰" />
+        </view>
+        <view class="field">
+          <text class="label">可以调整</text>
+          <textarea class="textarea small-textarea" value="{{demandForm.canAdjust}}" bindinput="onCanAdjustInput" placeholder="例如：尺寸、材料、局部摆件" />
+        </view>
+        <button class="switch-row" bindtap="toggleAdjustments">
+          <text>允许蛋糕师按真实制作调整</text>
+          <text class="switch-pill {{demandForm.allowAdjustments ? 'active' : ''}}">{{demandForm.allowAdjustments ? '允许' : '不允许'}}</text>
+        </button>
+      </view>
+      <button class="secondary-button" loading="{{loading}}" disabled="{{loading}}" bindtap="publishDemand">发布制作需求</button>
+    </view>
+  </view>
+
+  <view class="panel" wx:if="{{!work}}">
+    <text class="section-title">还没有作品</text>
+    <text class="muted">请先到 AI 设计页生成一款蛋糕。</text>
+    <button class="primary-button empty-action" bindtap="goDesign">去设计</button>
+  </view>
+</view>

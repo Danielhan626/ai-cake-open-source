@@ -1,0 +1,15 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI Ruiyi fruit cake logo variant 1 fruit orbit">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="50" cy="50" r="38" stroke-width="3" opacity="0.24"/>
+    <path d="M18 53c9-18 28-28 49-24 6 1 11 4 15 8" stroke-width="3.2"/>
+    <path d="M26 71h48" stroke-width="3.4"/>
+    <path d="M35 67h30c4 0 7-3 7-7V47H28v13c0 4 3 7 7 7Z" stroke-width="3.4"/>
+    <path d="M34 47c4-7 11-10 16-4 6-6 14-4 18 4" stroke-width="3.4"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="50" cy="34" r="7"/>
+    <path d="M56 28c5-5 10-5 13-2-3 4-8 6-13 2Z"/>
+    <circle cx="80" cy="37" r="2.4"/>
+    <circle cx="22" cy="64" r="2" opacity="0.5"/>
+  </g>
+</svg>

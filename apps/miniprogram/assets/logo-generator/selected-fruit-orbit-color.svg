@@ -1,0 +1,18 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI如意鲜果蛋糕头像推荐方案 Fruit Orbit">
+  <rect width="100" height="100" fill="#F8F2E8"/>
+  <circle cx="50" cy="50" r="42" fill="#FFFDF8"/>
+  <circle cx="50" cy="50" r="39" fill="#FBF4E8" stroke="#C7A15A" stroke-width="1.8"/>
+  <path d="M18 53c9-18 28-28 49-24 6 1 11 4 15 8" fill="none" stroke="#C7A15A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M26 71h48" fill="none" stroke="#C7A15A" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M35 67h30c4 0 7-3 7-7V47H28v13c0 4 3 7 7 7Z" fill="#FFF8ED" stroke="#C7A15A" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M34 47c4-7 11-10 16-4 6-6 14-4 18 4" fill="none" stroke="#C7A15A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="50" cy="34" r="7" fill="#B83A4A"/>
+  <circle cx="47" cy="31" r="2.2" fill="#F4A0A8" opacity="0.85"/>
+  <path d="M56 28c5-5 10-5 13-2-3 4-8 6-13 2Z" fill="#234B3B"/>
+  <circle cx="80" cy="37" r="2.3" fill="#C7A15A"/>
+  <circle cx="22" cy="64" r="1.8" fill="#E7D4A3"/>
+  <path d="M40 83 45 74l5 9" fill="none" stroke="#33222B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M42.5 80h5" fill="none" stroke="#33222B" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M58 74v9" fill="none" stroke="#33222B" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M55 74h6M55 83h6" fill="none" stroke="#33222B" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

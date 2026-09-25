@@ -1,0 +1,16 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI Ruiyi Cake logo v2 magic canvas">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="20" y="18" width="60" height="64" rx="16" stroke-width="3.4"/>
+    <path d="M31 34h22" stroke-width="3" opacity="0.58"/>
+    <path d="M31 45h13" stroke-width="3" opacity="0.34"/>
+    <path d="M31 70h38" stroke-width="3.2"/>
+    <path d="M38 65h24c4 0 7-3 7-7v-8H31v8c0 4 3 7 7 7Z" stroke-width="3.2"/>
+    <path d="M34 50c5-8 14-8 19 0 4-6 12-6 16 0" stroke-width="3.2"/>
+    <path d="M69 27l5 5-23 23-7 2 2-7 23-23Z" stroke-width="3.1"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="54" cy="43" r="5.4"/>
+    <path d="M58 39c4-4 8-5 12-2-3 4-7 5-12 2Z"/>
+    <circle cx="76" cy="23" r="2.2"/>
+  </g>
+</svg>

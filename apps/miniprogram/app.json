@@ -1,0 +1,58 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/works/works",
+    "pages/work-detail/work-detail",
+    "pages/design/design",
+    "pages/result/result",
+    "pages/demand/demand",
+    "pages/bakers/bakers",
+    "pages/quotes/quotes",
+    "pages/orders/orders",
+    "pages/rules/rules",
+    "pages/support/support",
+    "pages/onboarding/onboarding",
+    "pages/mine/mine"
+  ],
+  "window": {
+    "navigationBarTitleText": "如意鲜果蛋糕",
+    "navigationBarBackgroundColor": "#fff8ef",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#fff8ef"
+  },
+  "permission": {
+    "scope.userFuzzyLocation": {
+      "desc": "用于匹配附近服务城市和订单城市，仍可手动选择城市。"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getFuzzyLocation"
+  ],
+  "tabBar": {
+    "color": "#8a7466",
+    "selectedColor": "#cc5d66",
+    "backgroundColor": "#fffefb",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/works/works",
+        "text": "作品广场"
+      },
+      {
+        "pagePath": "pages/bakers/bakers",
+        "text": "接单广场"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

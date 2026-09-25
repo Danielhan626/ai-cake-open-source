@@ -1,0 +1,16 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI Ruiyi Cake logo v2 playful orbit">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 53c10-21 34-32 58-20" stroke-width="3.4"/>
+    <path d="M82 49c-9 20-34 31-58 20" stroke-width="2.8" opacity="0.36"/>
+    <path d="M28 69h44" stroke-width="3.3"/>
+    <path d="M36 64h28c4 0 7-3 7-7v-9H29v9c0 4 3 7 7 7Z" stroke-width="3.3"/>
+    <path d="M36 48c4-7 12-8 17-1 5-6 12-6 16 1" stroke-width="3.3"/>
+    <path d="M45 31 60 40 45 49Z" stroke-width="3.1"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="50" cy="31" r="5.3"/>
+    <path d="M55 27c4-4 8-4 12-2-3 4-7 5-12 2Z"/>
+    <circle cx="79" cy="35" r="2.5"/>
+    <circle cx="22" cy="65" r="2" opacity="0.5"/>
+  </g>
+</svg>

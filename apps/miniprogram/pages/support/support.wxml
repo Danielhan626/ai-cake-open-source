@@ -1,0 +1,53 @@
+<view class="page support-page">
+  <view class="support-hero">
+    <text class="eyebrow">售后与争议</text>
+    <text class="title">售后线索</text>
+    <text class="muted">用于订单争议、配送问题、成品不符、食品安全和客服跟进。正式退款请从订单页发起，这里更适合补充沟通线索和凭证。</text>
+  </view>
+
+  <view class="panel" wx:if="{{order}}">
+    <text class="section-title">关联订单</text>
+    <text class="card-title">{{order.title}}</text>
+    <text class="muted">{{order.status}} · {{order.totalText}}</text>
+  </view>
+
+  <view class="panel">
+    <text class="section-title">提交问题</text>
+    <view class="field">
+      <text class="label">问题类型</text>
+      <picker range="{{typeOptions}}" value="{{typeIndex}}" bindchange="onTypeChange">
+        <view class="picker">{{typeText}}</view>
+      </picker>
+    </view>
+    <view class="field">
+      <text class="label">联系方式</text>
+      <input class="input" value="{{contact}}" bindinput="onContactInput" placeholder="微信号或手机号" />
+    </view>
+    <view class="field">
+      <text class="label">问题描述</text>
+      <textarea class="textarea" value="{{description}}" bindinput="onDescriptionInput" placeholder="说明订单、沟通、成品、配送或退款问题" />
+    </view>
+    <view class="field">
+      <text class="label">凭证说明</text>
+      <textarea class="textarea" value="{{evidenceNote}}" bindinput="onEvidenceInput" placeholder="例如聊天记录、成品照、配送截图、退款证据等" />
+    </view>
+    <view class="field">
+      <text class="label">证据图片</text>
+      <button class="secondary-button" bindtap="chooseEvidenceImages">上传售后证据</button>
+      <text class="muted">已添加 {{evidenceImages.length}} 张证据。建议补充成品照、沟通截图和收货时间说明。</text>
+    </view>
+    <button class="secondary-button submit-button" wx:if="{{mode === 'refund'}}" bindtap="openRefundGuide">查看退款入口</button>
+    <button class="secondary-button submit-button" wx:else loading="{{submitting}}" disabled="{{submitting}}" bindtap="submitTicket">提交售后线索</button>
+  </view>
+
+  <view class="panel" wx:if="{{tickets.length}}">
+    <text class="section-title">提交记录</text>
+    <view class="ticket-list">
+      <view class="ticket-card" wx:for="{{tickets}}" wx:key="id">
+        <text class="ticket-title">{{item.type}}</text>
+        <text class="muted">{{item.status}} · {{item.orderId}}</text>
+        <text class="ticket-desc">{{item.description}}</text>
+      </view>
+    </view>
+  </view>
+</view>

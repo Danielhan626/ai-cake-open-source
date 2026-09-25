@@ -1,0 +1,176 @@
+<view class="page design-page">
+  <view class="panel design-hero">
+    <text class="eyebrow">AI 蛋糕配方台</text>
+    <text class="title">把想象调成一张蛋糕图</text>
+    <view class="score-board">
+      <view>
+        <text class="score-number">{{creativityScore}}</text>
+        <text class="score-label">创作值</text>
+      </view>
+      <text class="score-badge">{{creativityBadge}}</text>
+    </view>
+    <view class="credit-overview">
+      <text>创作积分 {{creditSummary.balance}} 点</text>
+      <text>{{creditSummary.dailyFreeGenerationText}}</text>
+    </view>
+  </view>
+
+  <view class="panel recipe-panel">
+    <view class="section-head compact-head">
+      <text class="section-title">蛋糕想法</text>
+      <button class="ghost-button compact-toggle" bindtap="toggleAdvancedRecipe">{{showAdvancedRecipe ? '收起细节' : '细节'}}</button>
+    </view>
+    <view class="field">
+      <text class="label">一句话描述</text>
+      <textarea class="textarea prompt-textarea" value="{{form.prompt}}" bindinput="onPromptInput" placeholder="例如：送给女朋友的粉色蝴蝶结生日蛋糕" />
+    </view>
+    <view class="recipe-summary">
+      <text>{{form.scenario}}</text>
+      <text>{{form.style}}</text>
+      <text>{{form.color}}</text>
+      <text>{{form.size}}</text>
+      <text>{{form.budget}}</text>
+    </view>
+
+    <view class="advanced-recipe" wx:if="{{showAdvancedRecipe}}">
+      <view class="field-grid design-field-grid">
+        <view class="field">
+          <text class="label">场景</text>
+          <picker range="{{scenarioOptions}}" value="{{scenarioIndex}}" bindchange="onScenarioChange">
+            <view class="picker">{{form.scenario}}</view>
+          </picker>
+        </view>
+        <view class="field">
+          <text class="label">风格</text>
+          <picker range="{{styleOptions}}" value="{{styleIndex}}" bindchange="onStyleChange">
+            <view class="picker">{{form.style}}</view>
+          </picker>
+        </view>
+        <view class="field">
+          <text class="label">色系</text>
+          <picker range="{{colorOptions}}" value="{{colorIndex}}" bindchange="onColorChange">
+            <view class="picker">{{form.color}}</view>
+          </picker>
+        </view>
+        <view class="field">
+          <text class="label">尺寸</text>
+          <picker range="{{sizeOptions}}" value="{{sizeIndex}}" bindchange="onSizeChange">
+            <view class="picker">{{form.size}}</view>
+          </picker>
+        </view>
+        <view class="field">
+          <text class="label">预算</text>
+          <picker range="{{budgetOptions}}" value="{{budgetIndex}}" bindchange="onBudgetChange">
+            <view class="picker">{{form.budget}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="field">
+        <text class="label">装饰道具</text>
+        <view class="prop-grid">
+          <view
+            class="prop-chip {{item.active ? 'active' : ''}}"
+            wx:for="{{propOptions}}"
+            wx:key="name"
+            bindtap="toggleProp"
+            data-prop="{{item.name}}"
+          >{{item.name}}</view>
+        </view>
+      </view>
+    </view>
+
+    <button class="primary-button generate-action" loading="{{loading}}" disabled="{{loading}}" bindtap="generate">生成并保存</button>
+  </view>
+
+  <view class="panel task-panel">
+    <view class="section-head compact-head">
+      <view>
+        <text class="section-title">今日创作题</text>
+        <text class="muted compact-subtitle" wx:if="{{activeChallenge.source === 'local-practice'}}">练习模式，不计真实奖励</text>
+        <text class="muted compact-subtitle" wx:else>{{activeChallenge.title || '营销日历赛题提前发布'}}</text>
+      </view>
+      <button class="ghost-button compact-toggle" bindtap="toggleTaskList">{{showTaskList ? '收起' : '换题'}}</button>
+    </view>
+
+    <view class="task-cycle-strip design-cycle-strip" wx:if="{{taskCycleSummary.length}}">
+      <view class="task-cycle-cell" wx:for="{{taskCycleSummary}}" wx:key="key">
+        <text class="task-cycle-value">{{item.value}}</text>
+        <text class="task-cycle-title">{{item.title}}</text>
+        <text class="task-cycle-note">{{item.note}}</text>
+      </view>
+    </view>
+
+    <view class="contest-lead" wx:if="{{!activeChallenge.title}}">
+      <text class="contest-kicker">创作者参赛入口</text>
+      <text class="card-title">提前为节日和热点做蛋糕设计</text>
+      <text class="muted">AI 会按七夕、开学、圣诞等营销日历发题。使用创作积分生成作品，优质作品经 AI 点评、观众投票送花和官方审核后进入奖励池。</text>
+      <view class="contest-flow">
+        <text>AI 发题</text>
+        <text>创作参赛</text>
+        <text>投票送花</text>
+        <text>官方审核</text>
+      </view>
+      <button class="ghost-button contest-action" bindtap="toggleTaskList">{{showTaskList ? '收起赛题' : '查看赛题'}}</button>
+    </view>
+
+    <view class="active-task-compact" wx:if="{{activeChallenge.title}}">
+      <view>
+        <text class="card-title">{{activeChallenge.title}}</text>
+        <text class="muted">{{activeChallenge.botLine}}</text>
+      </view>
+      <view class="task-state-row">
+        <text>状态 {{activeChallenge.rewardStatusText || '进行中'}}</text>
+        <text wx:if="{{activeChallenge.source !== 'local-practice'}}">参与人数 {{activeChallenge.participantCount || 0}}</text>
+        <text wx:if="{{activeChallenge.source !== 'local-practice'}}">奖励池 {{activeChallenge.rewardLabel || '待定'}}</text>
+      </view>
+      <text class="task-period-text">{{activeChallenge.periodLabel || '当前任务'}} · {{activeChallenge.scheduleText || '当前可参与'}}</text>
+      <text class="task-reward-note" wx:if="{{activeChallenge.source !== 'local-practice'}}">任务赚钱以官方审核为准：优胜作品进入奖励池，结合 AI 点评、观众送花和后台确认。</text>
+      <text class="task-reward-note practice" wx:else>这题只用于练习和打磨作品，不产生真实奖励。</text>
+    </view>
+
+    <view class="quest-list" wx:if="{{showTaskList}}">
+      <view class="quest-group" wx:for="{{challengeGroups}}" wx:for-item="group" wx:key="key">
+        <view class="quest-group-head">
+          <text class="quest-group-title">{{group.title}}</text>
+          <text class="quest-group-note">{{group.note}}</text>
+        </view>
+        <view
+          class="quest-card {{activeChallenge.id == item.id ? 'active' : ''}}"
+          wx:for="{{group.tasks}}"
+          wx:key="id"
+        >
+          <view class="quest-head">
+            <text class="quest-title">{{item.title}}</text>
+            <text class="reward-pill">{{item.prizeLabel || item.rewardLabel}}</text>
+          </view>
+          <text class="bot-line">{{item.botLine}}</text>
+          <text class="quest-rule">{{item.rewardTeaser || 'AI 点评 + 观众送花 + 官方审核'}}</text>
+          <text class="task-period-text">{{item.periodLabel}} · {{item.scheduleText}}</text>
+          <view class="task-state-row">
+            <text>参与人数 {{item.participantCount}}</text>
+            <text>任务状态 {{item.rewardStatusText}}</text>
+          </view>
+          <button
+            class="ghost-button quest-select-button"
+            bindtap="selectChallenge"
+            data-id="{{item.id}}"
+            data-templateid="{{item.templateId}}"
+            data-campaignid="{{item.campaignId}}"
+            data-title="{{item.title}}"
+            data-prompt="{{item.prompt}}"
+            data-scenario="{{item.scenario}}"
+            data-style="{{item.style}}"
+            data-color="{{item.color}}"
+            data-botline="{{item.botLine}}"
+            data-reward="{{item.rewardAmount}}"
+            data-rewardlabel="{{item.rewardLabel}}"
+            data-tags="{{item.tagText}}"
+            data-participants="{{item.participantCount}}"
+            data-status="{{item.rewardStatusText}}"
+            data-source="{{item.source}}"
+          >{{activeChallenge.id == item.id ? '已选中这题' : (item.source === 'local-practice' ? '练习这题' : '选这题参赛')}}</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

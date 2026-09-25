@@ -1,0 +1,83 @@
+<view class="page onboarding-page">
+  <view class="onboarding-hero">
+    <text class="eyebrow">师傅入驻</text>
+    <text class="title">蛋糕师入驻</text>
+    <text class="muted">正式承接订单前，需要提交店铺信息、服务范围和食品相关资质，平台审核通过后才能报价。</text>
+  </view>
+
+  <view class="panel status-panel" wx:if="{{submitted}}">
+    <text class="section-title">入驻状态</text>
+    <text class="status-pill">{{submissionStatusLabel}}</text>
+    <text class="muted status-copy">{{submissionHint}}</text>
+  </view>
+
+  <view class="panel">
+    <text class="section-title">店铺信息</text>
+    <view class="field-grid">
+      <view class="field">
+        <text class="label">店铺名称</text>
+        <input class="input" value="{{form.shopName}}" data-field="shopName" bindinput="onInput" />
+      </view>
+      <view class="field">
+        <text class="label">负责人</text>
+        <input class="input" value="{{form.ownerName}}" data-field="ownerName" bindinput="onInput" />
+      </view>
+      <view class="field">
+        <text class="label">联系电话</text>
+        <input class="input" value="{{form.phone}}" data-field="phone" bindinput="onInput" />
+      </view>
+      <view class="field">
+        <text class="label">城市</text>
+        <input class="input" value="{{form.city}}" data-field="city" bindinput="onInput" />
+      </view>
+      <view class="field">
+        <text class="label">区县</text>
+        <input class="input" value="{{form.district}}" data-field="district" bindinput="onInput" />
+      </view>
+      <view class="field">
+        <text class="label">服务范围</text>
+        <input class="input" value="{{form.serviceRange}}" data-field="serviceRange" bindinput="onInput" />
+      </view>
+    </view>
+    <view class="field">
+      <text class="label">详细地址</text>
+      <input class="input" value="{{form.address}}" data-field="address" bindinput="onInput" />
+    </view>
+    <view class="field">
+      <text class="label">擅长品类</text>
+      <input class="input" value="{{form.specialties}}" data-field="specialties" bindinput="onInput" />
+    </view>
+  </view>
+
+  <view class="panel">
+    <view class="section-head">
+      <text class="section-title">资质资料</text>
+      <button class="link-button" bindtap="showUploadTip">上传说明</button>
+    </view>
+    <view class="field">
+      <text class="label">健康证</text>
+      <text class="muted credential-status">{{form.healthCert || '未上传'}}</text>
+      <view class="upload-row">
+        <button class="upload-button" bindtap="chooseCredential" data-field="healthCertUrl" loading="{{uploading === 'healthCertUrl'}}">选择健康证图片</button>
+        <text class="upload-url" wx:if="{{form.healthCertUrl}}">已上传，待平台审核</text>
+      </view>
+    </view>
+    <view class="field">
+      <text class="label">营业执照</text>
+      <text class="muted credential-status">{{form.businessLicense || '未上传'}}</text>
+      <view class="upload-row">
+        <button class="upload-button" bindtap="chooseCredential" data-field="businessLicenseUrl" loading="{{uploading === 'businessLicenseUrl'}}">选择营业执照图片</button>
+        <text class="upload-url" wx:if="{{form.businessLicenseUrl}}">已上传，待平台审核</text>
+      </view>
+    </view>
+    <view class="field">
+      <text class="label">食品经营相关资质</text>
+      <text class="muted credential-status">{{form.foodPermit || '未上传'}}</text>
+      <view class="upload-row">
+        <button class="upload-button" bindtap="chooseCredential" data-field="foodPermitUrl" loading="{{uploading === 'foodPermitUrl'}}">选择食品资质图片</button>
+        <text class="upload-url" wx:if="{{form.foodPermitUrl}}">已上传，待平台审核</text>
+      </view>
+    </view>
+    <button class="secondary-button submit-button" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submitApplication">提交入驻资料</button>
+  </view>
+</view>

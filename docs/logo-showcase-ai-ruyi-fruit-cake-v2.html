@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI如意鲜果蛋糕 Logo Concepts V2</title>
+    <style>
+      :root {
+        --ink: #24171f;
+        --muted: #796f67;
+        --paper: #faf5ec;
+        --panel: #fffdf8;
+        --gold: #c7a15a;
+        --berry: #b83a4a;
+        --leaf: #234b3b;
+        --line: rgba(36, 23, 31, 0.12);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at 18% 10%, rgba(255, 255, 255, 0.96), transparent 32%),
+          linear-gradient(135deg, #fff8ec 0%, #f7efe4 48%, #efe6da 100%);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+      }
+
+      main {
+        width: min(1180px, calc(100vw - 36px));
+        margin: 0 auto;
+        padding: 64px 0 76px;
+      }
+
+      header {
+        display: grid;
+        grid-template-columns: 1fr 0.82fr;
+        gap: 42px;
+        align-items: end;
+        margin-bottom: 42px;
+      }
+
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--berry);
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 760px;
+        font-size: clamp(38px, 6vw, 76px);
+        line-height: 0.98;
+        font-weight: 520;
+        letter-spacing: 0;
+      }
+
+      .intro {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.82;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        background: rgba(255, 253, 248, 0.82);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 24px;
+        min-height: 430px;
+        backdrop-filter: blur(14px);
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(184, 58, 74, 0.28);
+        box-shadow: 0 22px 64px rgba(54, 30, 24, 0.1);
+      }
+
+      .logo-stage {
+        width: 184px;
+        height: 184px;
+        margin: 0 auto 24px;
+        display: grid;
+        place-items: center;
+        border-radius: 32px;
+        background: #fff8ec;
+        color: var(--ink);
+        box-shadow: inset 0 0 0 1px rgba(199, 161, 90, 0.22);
+      }
+
+      .logo-stage.gold { color: var(--gold); }
+      .logo-stage.berry { color: var(--berry); }
+      .logo-stage.leaf { color: var(--leaf); }
+      .logo-stage.ink { color: var(--ink); }
+
+      .logo {
+        width: 118px;
+        height: 118px;
+        display: block;
+      }
+
+      h2 {
+        margin: 0 0 8px;
+        font-size: 21px;
+        letter-spacing: 0;
+      }
+
+      .subtitle {
+        margin: 0 0 16px;
+        color: var(--berry);
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .reason {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.76;
+      }
+
+      .recommend {
+        margin-top: 42px;
+        padding: 26px;
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        gap: 24px;
+        align-items: center;
+        border-radius: 22px;
+        background: #24171f;
+        color: #fff8ec;
+      }
+
+      .recommend .logo-stage {
+        width: 140px;
+        height: 140px;
+        margin: 0;
+        border-radius: 28px;
+        color: var(--gold);
+      }
+
+      .recommend .logo { width: 90px; height: 90px; }
+      .recommend p { margin: 0; color: rgba(255, 248, 236, 0.78); line-height: 1.78; }
+      .recommend strong { color: #fff; }
+
+      @media (max-width: 900px) {
+        header, .recommend { grid-template-columns: 1fr; }
+        .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+
+      @media (max-width: 640px) {
+        main { width: min(100vw - 24px, 1180px); padding-top: 40px; }
+        .grid { grid-template-columns: 1fr; }
+        .card { min-height: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <section>
+          <p class="eyebrow">logo generator exploration · v2</p>
+          <h1>AI如意鲜果蛋糕</h1>
+        </section>
+        <p class="intro">第二轮更强调“AI 绘画蛋糕”的入口感：画布、提示词、魔法笔、生成轨迹和鲜果蛋糕同时出现，但仍控制在极简图形系统内，保证微信 144px 头像清晰、审核安全。</p>
+      </header>
+
+      <section class="grid">
+        <article class="card">
+          <div class="logo-stage gold"><img class="logo" src="../apps/miniprogram/assets/logo-generator-v2/variant-01-magic-canvas.svg" alt="Magic Canvas" /></div>
+          <h2>Magic Canvas</h2>
+          <p class="subtitle">ai canvas + cake + wand</p>
+          <p class="reason">最贴近“进来玩 AI 画蛋糕”的定位。画布代表生成界面，魔法笔代表 AI 绘画动作，蛋糕和鲜果保留业务识别。</p>
+        </article>
+
+        <article class="card">
+          <div class="logo-stage berry"><img class="logo" src="../apps/miniprogram/assets/logo-generator-v2/variant-02-prompt-cake.svg" alt="Prompt Cake" /></div>
+          <h2>Prompt Cake</h2>
+          <p class="subtitle">prompt bubble + custom cake</p>
+          <p class="reason">把“输入想法”做成提示词气泡，下方生成蛋糕。适合强调一句话生图和低门槛玩法。</p>
+        </article>
+
+        <article class="card">
+          <div class="logo-stage leaf"><img class="logo" src="../apps/miniprogram/assets/logo-generator-v2/variant-03-playful-orbit.svg" alt="Playful Orbit" /></div>
+          <h2>Playful Orbit</h2>
+          <p class="subtitle">play cue + ai orbit</p>
+          <p class="reason">加入播放三角，视觉上更像“点开玩一下”。适合偏游戏化运营，但商务高级感略弱于 Magic Canvas。</p>
+        </article>
+
+        <article class="card">
+          <div class="logo-stage ink"><img class="logo" src="../apps/miniprogram/assets/logo-generator-v2/variant-04-ruyi-stroke.svg" alt="Ruyi Stroke" /></div>
+          <h2>Ruyi Stroke</h2>
+          <p class="subtitle">ruyi stroke + cream layers</p>
+          <p class="reason">用一笔如意弧线表达品牌名，整体更东方、更高定。适合做品牌主标或启动页，不如第一款直观表达 AI 工具。</p>
+        </article>
+
+        <article class="card">
+          <div class="logo-stage berry"><img class="logo" src="../apps/miniprogram/assets/logo-generator-v2/variant-05-neural-berry.svg" alt="Neural Berry" /></div>
+          <h2>Neural Berry</h2>
+          <p class="subtitle">node network + fruit cake</p>
+          <p class="reason">把鲜果抽象成神经网络节点，AI 感更强，适合技术平台感。但普通用户看到蛋糕的速度略慢。</p>
+        </article>
+
+        <article class="card">
+          <div class="logo-stage gold"><img class="logo" src="../apps/miniprogram/assets/logo-generator-v2/variant-06-gallery-jewel.svg" alt="Gallery Jewel" /></div>
+          <h2>Gallery Jewel</h2>
+          <p class="subtitle">image tile + dessert jewel</p>
+          <p class="reason">像一个 AI 作品卡片，能联想到作品广场和生成结果。适合社区属性，但“蛋糕制作撮合”的意味较弱。</p>
+        </article>
+      </section>
+
+      <section class="recommend">
+        <div class="logo-stage"><img class="logo" src="../apps/miniprogram/assets/logo-generator-v2/variant-01-magic-canvas.svg" alt="Recommended v2 logo" /></div>
+        <p><strong>第二轮推荐：Magic Canvas。</strong><br />它比上一轮更像一个 AI 生图小程序入口：用户能看到画布、魔法笔、蛋糕和鲜果，视觉语义更完整。适合用作“AI如意鲜果蛋糕”的新头像候选。</p>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<view class="page">
+  <view class="panel" wx:if="{{quote}}">
+    <text class="eyebrow">师傅报价</text>
+    <text class="title">蛋糕师报价</text>
+    <view class="price-row">
+      <text class="price">¥{{total}}</text>
+      <text class="muted">蛋糕 ¥{{quote.amount}} · 配送 ¥{{quote.deliveryFee}}</text>
+    </view>
+    <text class="tag quote-decision">{{quoteDecisionText}}</text>
+    <text class="muted">制作周期：{{quote.productionDays}} 天，可制作日期：{{quote.availableDate}}</text>
+    <view class="quote-summary" wx:if="{{quoteSummary.length}}">
+      <view class="quote-summary-item" wx:for="{{quoteSummary}}" wx:key="label">
+        <text>{{item.label}}</text>
+        <text>{{item.value}}</text>
+      </view>
+    </view>
+    <view class="quote-rules" wx:if="{{quoteRuleCards.length}}">
+      <text class="quote-rules-title">这份报价还确认了什么</text>
+      <view class="quote-rule-card" wx:for="{{quoteRuleCards}}" wx:key="title">
+        <text class="quote-rule-label">{{item.title}}</text>
+        <text class="quote-rule-value">{{item.value}}</text>
+      </view>
+    </view>
+    <text class="muted note">{{quote.message}}</text>
+    <text class="muted note">{{quote.adjustmentNote}}</text>
+    <view class="quote-next" wx:if="{{quoteNextStep}}">
+      <text class="quote-next-title">{{quoteNextStep.title}}</text>
+      <text class="muted">{{quoteNextStep.desc}}</text>
+    </view>
+  </view>
+
+  <view class="panel" wx:if="{{quote}}">
+    <text class="section-title">确认报价意向</text>
+    <text class="muted">这一页先完成撮合确认。你选择报价后，平台记录订单，由蛋糕师继续确认制作、配送或自提细节。</text>
+    <view class="quote-loop">
+      <text>需求审核</text>
+      <text>师傅报价</text>
+      <text>选择报价</text>
+      <text>履约售后</text>
+    </view>
+    <view class="quote-bridge">
+      <text class="quote-bridge-title">平台此时确认的是撮合，不是替师傅承诺最终成品</text>
+      <text class="muted">师傅会按图片、预算、日期和制作沟通等级来接单；确认后你可以在订单里继续跟进制作、配送和售后。</text>
+    </view>
+    <button class="primary-button pay-action" wx:if="{{selectableQuote}}" loading="{{loading}}" disabled="{{loading}}" bindtap="pay">选择这个报价</button>
+    <text class="muted" wx:else>这条是“暂不接单”回复，不能选择为订单。可以等待其他蛋糕师报价或调整需求。</text>
+  </view>
+
+  <view class="panel" wx:if="{{payment}}">
+    <text class="section-title">确认结果</text>
+    <text class="muted">状态：{{payment.status}} · 金额：¥{{payment.amount}}</text>
+    <button class="secondary-button pay-action" bindtap="goOrders">查看我的订单</button>
+  </view>
+
+  <view class="panel" wx:if="{{!quote && hasCurrentDemand}}">
+    <text class="section-title">暂无可确认报价</text>
+    <text class="muted">当前需求还在审核或等待师傅回复。回到需求详情，可以继续看进度，不会误把你带进师傅端。</text>
+    <button class="primary-button pay-action" bindtap="goDemand">{{emptyQuoteActionText}}</button>
+  </view>
+
+  <view class="panel" wx:if="{{!quote && !hasCurrentDemand}}">
+    <text class="section-title">还没有报价</text>
+    <text class="muted">先从作品或设计页发布一条制作需求，平台审核后才会进入师傅报价环节。</text>
+    <button class="primary-button pay-action" bindtap="goDesign">{{emptyQuoteActionText}}</button>
+  </view>
+</view>

@@ -1,0 +1,73 @@
+<view class="page bakers-page">
+  <view class="panel">
+    <text class="eyebrow">师傅工作入口</text>
+    <text class="title">{{activeMarketCity}}接单广场</text>
+    <text class="muted">师傅端从这里看 AI 蛋糕图片和制作需求，确认城市、日期、预算后报价；成交后回到工作台跟进履约。</text>
+    <view class="baker-flow">
+      <text>看需求</text>
+      <text>报价格</text>
+      <text>确认制作</text>
+      <text>履约售后</text>
+    </view>
+    <view class="market-summary">
+      <view class="market-summary-item" wx:for="{{marketSummary}}" wx:key="label">
+        <text>{{item.label}}</text>
+        <text>{{item.value}}</text>
+      </view>
+    </view>
+    <text class="market-trust">只有平台审核通过的需求才会开放报价；平台不替师傅承诺最终成品。</text>
+    <button class="ghost-button desk-button" bindtap="goBakerMine">进入师傅工作台</button>
+  </view>
+
+  <view class="panel">
+    <view class="header-row">
+      <text class="section-title">制作需求</text>
+      <button class="ghost-button refresh-button" bindtap="loadData">刷新</button>
+    </view>
+
+    <view class="card-list" wx:if="{{demands.length}}">
+      <view class="list-card demand-card" wx:for="{{demands}}" wx:key="id">
+        <image class="thumb" src="{{item.work.imageUrl}}" mode="aspectFill" />
+        <view class="demand-body">
+          <text class="card-title">{{item.title}}</text>
+          <text class="muted">{{item.district}} · {{item.demandSignal}}</text>
+          <text class="demand-brief">{{item.demandBrief}}</text>
+          <view class="tag-row compact-tags">
+            <text class="tag">{{item.demandStage}}</text>
+            <text class="tag">{{item.quoteLabel}}</text>
+          </view>
+          <view class="demand-actions">
+            <button class="ghost-button mini-demand-button" bindtap="openDemand" data-id="{{item.id}}" data-entry="detail">看需求</button>
+            <button class="secondary-button mini-demand-button quote-demand-button" wx:if="{{item.status === 'quoting'}}" bindtap="openQuoteDemand" data-id="{{item.id}}" data-entry="quote">去报价</button>
+            <button class="ghost-button mini-demand-button disabled-demand-button" wx:elif="{{item.status === 'selected'}}" disabled>已选报价</button>
+            <button class="ghost-button mini-demand-button disabled-demand-button" wx:else disabled>等待审核</button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view wx:else>
+      <text class="muted">暂无{{activeMarketCity}}真实制作需求。消费者或创作者发布制作需求后，师傅才能看图、报价并进入履约流程。</text>
+      <button class="primary-button empty-action" bindtap="goDesign">去设计</button>
+    </view>
+  </view>
+
+  <view class="panel">
+    <text class="section-title">{{activeMarketCity}}蛋糕师</text>
+    <view class="card-list" wx:if="{{bakers.length}}">
+      <view class="baker-card" wx:for="{{bakers}}" wx:key="id">
+        <text class="card-title">{{item.name}}</text>
+        <text class="muted">{{item.district}} · {{item.deliveryRadiusKm}}km · 起订 ¥{{item.startingPrice}}</text>
+        <view class="tag-row compact-tags">
+          <text class="tag" wx:for="{{item.specialties}}" wx:key="*this">{{item}}</text>
+        </view>
+        <text class="muted cert-line">平台审核：{{item.reviewStatus === 'approved' ? '已通过' : '审核中'}}</text>
+      </view>
+    </view>
+    <view class="market-empty" wx:else>
+      <text class="market-empty-title">当前城市商家招募中</text>
+      <text class="muted">平台只展示已提交资质并通过审核的蛋糕师。你可以先发布制作需求，或邀请熟悉的蛋糕店入驻。</text>
+      <button class="secondary-button empty-action" bindtap="goOnboarding">商家入驻</button>
+    </view>
+  </view>
+</view>

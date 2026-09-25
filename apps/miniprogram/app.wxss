@@ -1,0 +1,225 @@
+page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 12% 2%, rgba(240, 119, 132, 0.14), transparent 28%),
+    radial-gradient(circle at 94% 12%, rgba(96, 163, 133, 0.16), transparent 26%),
+    linear-gradient(180deg, #fff8ef 0%, #f6fbf5 52%, #fff7f0 100%);
+  color: #302923;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button::after {
+  border: 0;
+}
+
+button {
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  transform: translateY(0);
+  transition: transform 140ms ease, opacity 140ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+button:active {
+  transform: translateY(2rpx) scale(0.985);
+  opacity: 0.96;
+}
+
+.page {
+  box-sizing: border-box;
+  padding: 28rpx 28rpx 48rpx;
+  overflow-x: hidden;
+}
+
+.panel {
+  position: relative;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow: hidden;
+  background: rgba(255, 253, 247, 0.94);
+  border: 1rpx solid rgba(94, 73, 53, 0.12);
+  border-radius: 22rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 18rpx 48rpx rgba(99, 65, 48, 0.08);
+}
+
+.eyebrow {
+  color: #8a7466;
+  font-size: 24rpx;
+  font-weight: 700;
+  letter-spacing: 1rpx;
+}
+
+.title {
+  display: block;
+  margin-top: 8rpx;
+  color: #302923;
+  font-size: 48rpx;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.section-title {
+  display: block;
+  margin-bottom: 18rpx;
+  color: #302923;
+  font-size: 34rpx;
+  font-weight: 880;
+  line-height: 1.2;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  gap: 18rpx;
+}
+
+.section-head .section-title {
+  margin-bottom: 0;
+}
+
+.muted {
+  max-width: 100%;
+  color: #75675e;
+  font-size: 27rpx;
+  line-height: 1.55;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.primary-button,
+.secondary-button,
+.ghost-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 88rpx;
+  box-sizing: border-box;
+  padding: 0 22rpx;
+  border-radius: 16rpx;
+  font-size: 30rpx;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: normal;
+  box-shadow: 0 12rpx 26rpx rgba(99, 65, 48, 0.1);
+}
+
+.primary-button {
+  color: #ffffff;
+  background: linear-gradient(180deg, #d96b73 0%, #c85360 100%);
+}
+
+.secondary-button {
+  color: #ffffff;
+  background: linear-gradient(180deg, #3a8b74 0%, #2f7c67 100%);
+}
+
+.ghost-button {
+  color: #2f6f5f;
+  background: linear-gradient(180deg, #f4fbf7 0%, #e9f6ef 100%);
+}
+
+.input,
+.textarea,
+.picker {
+  width: 100%;
+  min-height: 84rpx;
+  box-sizing: border-box;
+  padding: 20rpx;
+  border: 1rpx solid rgba(94, 73, 53, 0.14);
+  border-radius: 16rpx;
+  background: #fffefb;
+  font-size: 28rpx;
+  color: #302923;
+}
+
+.textarea {
+  min-height: 188rpx;
+}
+
+.field {
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+.label {
+  display: block;
+  margin-bottom: 10rpx;
+  color: #5d4d43;
+  font-size: 26rpx;
+  font-weight: 760;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+
+.tag {
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 8rpx 18rpx;
+  border-radius: 999rpx;
+  color: #2f6f5f;
+  background: linear-gradient(180deg, #f4fbf7 0%, #e9f6ef 100%);
+  font-size: 24rpx;
+  font-weight: 740;
+  overflow-wrap: break-word;
+}
+
+.cream-button {
+  box-shadow: 0 14rpx 28rpx rgba(200, 83, 96, 0.18), 0 2rpx 0 rgba(255, 255, 255, 0.32) inset;
+}
+
+.cake-image {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 16rpx;
+  background: #fffefb;
+}
+
+.card-list {
+  display: grid;
+  min-width: 0;
+  max-width: 100%;
+  gap: 18rpx;
+}
+
+.list-card {
+  display: grid;
+  grid-template-columns: 136rpx minmax(0, 1fr);
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  gap: 18rpx;
+  padding: 18rpx;
+  border-radius: 16rpx;
+  background: #fffefb;
+}
+
+.thumb {
+  width: 136rpx;
+  height: 136rpx;
+  border-radius: 16rpx;
+  object-fit: cover;
+}
+
+.card-title {
+  display: block;
+  max-width: 100%;
+  color: #302923;
+  font-size: 30rpx;
+  font-weight: 820;
+  line-height: 1.28;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
